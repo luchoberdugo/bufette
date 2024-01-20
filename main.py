@@ -1,6 +1,7 @@
 """
     Proyecto de bufette de abogados
 """
-def main:
-    pass
+def main():
+    print("Hola, mundo!!")
+
 
