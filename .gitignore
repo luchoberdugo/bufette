@@ -140,6 +140,7 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+<<<<<<< HEAD
 .code-workspace
 
 
@@ -148,3 +149,11 @@ entorno/*
 entorno/
 .entorno/
 .code-workspace
+=======
+
+# entornos de python
+
+entorno/*
+/entorno/*
+.entorno/*
+>>>>>>> 7ac95bb (Act. Eder)
