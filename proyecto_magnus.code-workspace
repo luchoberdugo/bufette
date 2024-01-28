@@ -7,6 +7,16 @@
 			"path": "."
 		}
 	],
+	"settings": {}
+}{
+	"folders": [
+		{
+			"path": "../../proyecto_magnus"
+		},
+		{
+			"path": "."
+		}
+	],
 	"settings": {
 		"liveServer.settings.multiRootWorkspaceName": "proyecto_magnus"
 	}
