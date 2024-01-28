@@ -145,3 +145,4 @@ GitHub.sublime-settings
 entorno/*
 entorno/
 .entorno/
+.code-workspace
