@@ -10,4 +10,9 @@ class IndexPageView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
-    
+
+class NosotrosPageView(TemplateView):
+    template_name = "core/nosotros.html"
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)    
