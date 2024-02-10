@@ -18,3 +18,12 @@ class NosotrosPageView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)    
+
+class ContactoPageView(TemplateView):
+    """ Vista para pagina de Contacto """
+    template_name = "core/Contacto.html"
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+        
+

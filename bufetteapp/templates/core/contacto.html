@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% block title %}Contacto{% endblock %} 
+{% load static %}
+
+{% block contenido %}
+{% include 'core/menu.html' %}
+<section class="container">
+    <div class="row justify-content-evenly">
+        <div class="text-center mt-3">
+            <h1 class="display-3">Contáctanos</h1>
+        </div>
+        <div class="col-6 mt-4">
+            <form class="form-floating">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Nombre Completo</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <label for="floatingInput">Correo Electrónico</label>
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                    <label for="floatingTextarea2">Mensaje</label>
+                </div>
+                <div class="mt-2 d-flex row justify-content-end">
+                    <button type="reset" class="btn btn-secondary col-3 mx-2">Cancelar</button>
+                    <button type="submit" class="btn btn-success col-3 mx-2">Enviar</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-4 mt-3">
+          <img src="https://img.freepik.com/foto-gratis/hombre-haciendo-su-proximo-movimiento_53876-64862.jpg?size=626&ext=jpg&ga=GA1.1.868789508.1707536565&semt=sph" alt="" class="img-fluid">
+        </div>
+      </div>
+</section>
+
+{% endblock %}
