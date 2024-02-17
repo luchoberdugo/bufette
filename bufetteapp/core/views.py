@@ -1,6 +1,8 @@
 from django.shortcuts import render
 # vistas basadas en clases:
-from django.views.generic.base import TemplateView
+from django.views.generic import ListView, TemplateView
+# Importamos el modelo de datos de core:
+from .models import Contacto, Nosotros, Servicios
 
 # Create your views here.
 class IndexPageView(TemplateView):
@@ -21,9 +23,17 @@ class NosotrosPageView(TemplateView):
 
 class ContactoPageView(TemplateView):
     """ Vista para pagina de Contacto """
-    template_name = "core/Contacto.html"
+    template_name = "core/contacto.html"
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
+        
+class ServiciosPageView(ListView):
+    """ Vista para pagina de Servicios """
+    template_name = "core/servicio.html"
+    # Parametros para datos desde la tabla servicios(core_servicios):
+    model = Servicios
+    paginate_by = 9
+
         
 

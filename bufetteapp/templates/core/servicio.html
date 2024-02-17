@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block title %}Servicios{% endblock %}
+{% load static %}
+
+{% block contenido %}
+{% include 'core/menu.html' %}
+<section class="container">
+    <div class="row">
+            {% for servicio in object_list %}     
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ servicio.nombre_servicio }}</h5>
+                            <p class="card-text">{{ servicio.descripcion_corta }}</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>  
+            {% endfor %}
+    </div> 
+</section>
+{% endblock %}
