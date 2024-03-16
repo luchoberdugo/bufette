@@ -10,18 +10,19 @@
             <h1 class="display-3">Contáctanos</h1>
         </div>
         <div class="col-6 mt-4">
-            <form class="form-floating">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <form class="">
+                {{ crsf_token }}
+                <div class="mb-3">
                     <label for="floatingInput">Nombre Completo</label>
+                    {{ form.nombre  }}
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <div class="mb-3">
                     <label for="floatingInput">Correo Electrónico</label>
+                    {{ form.correo }}                    
                 </div>
-                <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                <div class="mb-2">
                     <label for="floatingTextarea2">Mensaje</label>
+                    {{ form.mensaje }}
                 </div>
                 <div class="mt-2 d-flex row justify-content-end">
                     <button type="reset" class="btn btn-secondary col-3 mx-2">Cancelar</button>
