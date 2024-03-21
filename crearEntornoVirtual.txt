@@ -1,0 +1,13 @@
+pasos para crear un entorno virtual de python en vscode en el sistema operativo manjaro linux xfce
+
+1. previamente debe tener instalado vscode y python
+2. entrar a vscode y sincronizar con la cuenta de github
+3. crear la carpeta donde se va a alojar el proyecto
+4. abrir una terminal en vscode e ingresar a la carpeta del proyecto
+5. ejecutar el comando python -m venv nombre_entorno_virtual
+    m, significa módulos, venv, es el módulo de entornos virtuales, y seguido por el nombre que se le va a asignar al entorno virtual
+6. nos va a crear una carpeta en vscode con las configuraciones del entorno virtual
+7. activar el entorno virtual con el comando source bin/activate
+    debe aparecer el nombre del entorno virtual entre parentesis
+8. para desactivar el entorno virtual, usamos el comando deactivate
+
