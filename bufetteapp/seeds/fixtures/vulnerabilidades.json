@@ -1,0 +1,38 @@
+[
+    {
+        "id":0,
+        "nombre_vulnerabilidad":"Discapacitado"
+    },
+    {
+        "id":1,
+        "nombre_vulnerabilidad":"Población Desplazada"
+    },
+    {
+        "id":2,
+        "nombre_vulnerabilidad":""
+    },
+    {
+        "id":3,
+        "nombre_vulnerabilidad":""
+    },
+    {
+        "id":4,
+        "nombre_vulnerabilidad":""
+    },
+    {
+        "id":5,
+        "nombre_vulnerabilidad":""
+    },
+    {
+        "id":6,
+        "nombre_vulnerabilidad":""
+    },
+    {
+        "id":7,
+        "nombre_vulnerabilidad":""
+    },
+    {
+        "id":8,
+        "nombre_vulnerabilidad":""
+    }
+]
