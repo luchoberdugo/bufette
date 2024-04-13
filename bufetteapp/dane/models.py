@@ -11,3 +11,4 @@ class Departamento(models.Model):
 class Ciudad(models.Model):
     name = models.CharField(max_length=255)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
+        
