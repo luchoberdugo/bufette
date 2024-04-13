@@ -1,9 +1,11 @@
 import json
-from .models import Departamento, Ciudad
+# importamos los modelos:
+from dane.models import Departamento, Ciudad
 
 class DepartamentoSeed:
+
     def __init__(self) -> None:
-        with open("departamentos.json", encoding="utf8") as data:
+        with open("seeds/fixtures/dane.json", encoding="utf8") as data:
             self.departamentos = json.load(data)
 
     def should_run(self):

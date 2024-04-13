@@ -1,0 +1,38 @@
+[
+    {
+        "id":0,
+        "nombre_documento":"Nacido Vivo"
+    },
+    {
+        "id":1,
+        "nombre_documento":"Registro Civil"
+    },
+    {
+        "id":2,
+        "nombre_documento":"Tarjeta de Identidad"
+    },
+    {
+        "id":3,
+        "nombre_documento":"Cédula de Ciudadanía"
+    },
+    {
+        "id":4,
+        "nombre_documento":"Cédula de Extranjería"
+    },
+    {
+        "id":5,
+        "nombre_documento":"Pasaporte"
+    },
+    {
+        "id":6,
+        "nombre_documento":"Permiso Temporal de Trabajo"
+    },
+    {
+        "id":7,
+        "nombre_documento":"Visa"
+    },
+    {
+        "id":8,
+        "nombre_documento":"No Identificado"
+    }
+]
