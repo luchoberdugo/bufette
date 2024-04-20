@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+{% block title %}Ingreso{% endblock %}
+{% load static %}
+
+{% block contenido %}
+{% include 'core/menu.html' %}
+    <main class="form-signin w-25 m-auto mt-5">
+        <form id="login_form" method="POST">
+            {% csrf_token %}
+            <div class="text-center">
+                <img 
+                class="mb-4 img-fluid" 
+                src="https://thumbs.dreamstime.com/b/escalas-de-los-s%C3%ADmbolos-negros-de-la-silueta-de-la-justicia-y-del-mazo-aisladas-en-el-fondo-blanco-30085388.jpg" 
+                alt="" 
+                width="72">
+            </div>                
+            <h1 class="h3 mb-3 fw-normal text-center">Ingresar</h1>
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger text-capitalize" role="alert">
+                    Usuario y/o Contraseña incorrectos!!
+                </div>
+            {% endif %}
+            <div class="form-floating">
+                <input 
+                    type="email" 
+                    class="form-control" 
+                    id="id_username" 
+                    name="username"
+                    required 
+                    placeholder="name@example.com">
+                <label for="floatingInput">Correo electrónico</label>
+            </div>
+            <div class="form-floating mt-2">
+                <input 
+                    type="password" 
+                    class="form-control" 
+                    id="id_password" 
+                    name="password"
+                    required
+                    placeholder="Password">
+                <label for="floatingPassword">Contraseña</label>
+            </div>
+        
+            <button class="btn btn-primary mt-3 w-100 py-2" type="submit">Ingresar</button>
+            <a href="{% url 'inicio' %}">Volver al Inicio</a>
+            <p class="mt-5 mb-3 text-center text-body-secondary">© 2024</p>
+        </form>
+    </main>
+
+{% endblock %}
+
