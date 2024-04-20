@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('accounts/', include('django.contrib.auth.urls')),         # Con esta url configuramos el login
+    path('users/', include('registration.urls')),
 ]
 
