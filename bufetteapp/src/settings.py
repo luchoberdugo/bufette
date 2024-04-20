@@ -138,3 +138,12 @@ EMAIL_PORT = os.getenv('EMAIL_PORT')
 
 # Módulo de usuarios:
 AUTH_USER_MODEL = 'registration.Usuario'
+
+LOGIN_REDIRECT_URL = 'dashboard'
+
+LOGOUT_REDIRECT_URL = 'inicio'
+
+# Modificamos los archivos estaticos:
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]

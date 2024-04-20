@@ -4,19 +4,19 @@
 
 {% block contenido %}
 {% include 'core/menu.html' %}
-    <main class="form-signin w-25 m-auto mt-5">
+    <main class="form-signin w-25 m-auto mt-4">
         <form id="login_form" method="POST">
             {% csrf_token %}
             <div class="text-center">
                 <img 
-                class="mb-4 img-fluid" 
+                class="mb-3 img-fluid" 
                 src="https://thumbs.dreamstime.com/b/escalas-de-los-s%C3%ADmbolos-negros-de-la-silueta-de-la-justicia-y-del-mazo-aisladas-en-el-fondo-blanco-30085388.jpg" 
                 alt="" 
                 width="72">
             </div>                
-            <h1 class="h3 mb-3 fw-normal text-center">Ingresar</h1>
+            <h1 class="h3 mb-2 fw-normal text-center">Ingresar</h1>
             {% if form.non_field_errors %}
-                <div class="alert alert-danger text-capitalize" role="alert">
+                <div class="alert alert-danger text-capitalize text-center" role="alert">
                     Usuario y/o Contraseña incorrectos!!
                 </div>
             {% endif %}
