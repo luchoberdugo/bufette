@@ -17,13 +17,9 @@ class Departamento(models.Model):
 class Ciudad(models.Model):
     name = models.CharField(max_length=255)
     departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
-<<<<<<< HEAD
-        
-=======
 
     class Meta:
         verbose_name_plural = 'Ciudades'
 
     def __str__(self):
         return f'{self.name}'
->>>>>>> e935cefe99685bac491d6460cb2e12f2d0893129
