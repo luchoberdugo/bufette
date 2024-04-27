@@ -1,0 +1,32 @@
+{% extends 'registration/menuadmin.html' %}
+{% block title %}Muro{% endblock %}
+{% load static %}
+
+{% block dash %}
+    <section class="container-fluid">
+        <div class="row">
+            <table class="table">
+                <thead class="table-dark">
+                  <tr class="text-center">
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Identificación</th>
+                    <th>Nacionalidad</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for user in object_list %}
+                        <tr class="text-center">
+                            <td>{{ user.first_name }}</td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.numero_identificacion }}</td>
+                            <td>{{ user.nacionalidad }}</td>
+                            <td><a href=""><i class="fa-solid fa-user-pen"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>              
+        </div>
+    </section>
+{% endblock %}

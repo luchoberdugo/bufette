@@ -1,0 +1,13 @@
+{% extends 'registration/menuadmin.html' %}
+{% block title %}Muro{% endblock %}
+{% load static %}
+
+{% block dash %}
+    <section class="container-fluid">
+        <div class="row">
+            Aquí el formulario, es necesario tener la semilla implementada    
+            <hr>
+            {{ form.as_p }}       
+        </div>
+    </section>
+{% endblock %}
