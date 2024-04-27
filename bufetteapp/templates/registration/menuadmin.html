@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% block title %}Ingreso{% endblock %}
+{% block title %}Dashboard{% endblock %}
 {% load static %}
 
 {% block contenido %}
@@ -40,7 +40,13 @@
         </a>
         <ul id="ddmenu_1" class="collapse show dropdown-nav">
           <li>
-            <a href="index.html" class="active">Solicitud</a>
+            <a href="{% url 'listausuario' %}" class="active">Ver Usuarios</a>
+          </li>
+          <li>
+            <a href="{% url 'registro' %}" class="active">Registrar Usuario</a>
+          </li>
+          <li>
+            <a href="#" class="active">Solicitud</a>
           </li>
         </ul>
       </li>
