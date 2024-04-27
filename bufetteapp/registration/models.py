@@ -83,6 +83,8 @@ class Usuario(AbstractUser):
 class DetalleUsuario(models.Model):
     """ """
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Usuario")
+    fecha_nacimiento = models.DateField(blank=True, null=True, verbose_name='Fecha Nacimiento')
+    fecha_expedicion = models.DateField(blank=True, null=True, verbose_name='Fecha Expedición Documento')
     estado_civil = models.ForeignKey(EstadoCivil, on_delete=models.CASCADE, verbose_name="Estado Civil")
     tipo_documento = models.ForeignKey(TipoDocumento, on_delete=models.CASCADE, verbose_name = "Tipo de Documento")
     genero = models.ForeignKey(Genero, on_delete=models.CASCADE, verbose_name="Género", blank=True)

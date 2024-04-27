@@ -1,38 +1,27 @@
 [
     {
         "id":0,
-        "nombre_vulnerabilidad":"Discapacitado"
+        "nombre_vulnerabilidad":"Victima de Conflico Armado"
     },
     {
         "id":1,
-        "nombre_vulnerabilidad":"Población Desplazada"
+        "nombre_vulnerabilidad":"Habitante de Calle"
     },
+    
     {
         "id":2,
-        "nombre_vulnerabilidad":""
+        "nombre_vulnerabilidad":"Población con Discapacidad"
     },
     {
         "id":3,
-        "nombre_vulnerabilidad":""
+        "nombre_vulnerabilidad":"Migrantes y Refugiados"
     },
     {
         "id":4,
-        "nombre_vulnerabilidad":""
+        "nombre_vulnerabilidad":"Recicladoras de Oficio"
     },
     {
         "id":5,
-        "nombre_vulnerabilidad":""
-    },
-    {
-        "id":6,
-        "nombre_vulnerabilidad":""
-    },
-    {
-        "id":7,
-        "nombre_vulnerabilidad":""
-    },
-    {
-        "id":8,
-        "nombre_vulnerabilidad":""
+        "nombre_vulnerabilidad":"Comunidades de Actividades Sexuales Pagadas"
     }
 ]

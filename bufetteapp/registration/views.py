@@ -27,13 +27,17 @@ class SignUpUserView(CreateView):
     template_name = 'registration/registro.html'
 
     def get_success_url(self) -> str:
-        return reverse_lazy('detalle_usuario') + '?registrado'
+        email = self.object.email 
+        # Agrega el correo electrónico a la URL de redirección
+        return reverse_lazy('detalle_usuario') + f'?email={email}'      # Se cambia el parámetro de url para poder buscar el id mas adelante en la pantala siguiente
     
     # Arrastramos el formulario:
     def get_form(self, form_class= None):
         form = super(SignUpUserView, self).get_form()
         # Agregando Estilos:
         form.fields['username'].widget = forms.TextInput(attrs={'placeholder':'Nickname', 'class': 'form-control'})
+        form.fields['numero_identificacion'].widget = forms.TextInput(attrs={'placeholder':'Número de Identificación', 'class': 'form-control'})
+        form.fields['nacionalidad'].widget = forms.TextInput(attrs={'placeholder':'Nacionalidad', 'class': 'form-control'})
         form.fields['first_name'].widget = forms.TextInput(attrs={'placeholder':'Nombres', 'class': 'form-control'})
         form.fields['last_name'].widget = forms.TextInput(attrs={'placeholder':'Apellidos', 'class': 'form-control'})
         form.fields['email'].widget = forms.EmailInput(attrs={'placeholder':'Correo Electrónico', 'class': 'form-control'})
@@ -46,6 +50,25 @@ class AddDetailUserView(CreateView):
     """ Clase para agregar datos en el detalle del usuario """
     template_name = 'registration/detalleuser.html'
     form_class = DetalleUserForm
+    
+    def get(self, request, *args, **kwargs):
+        """ Con este método get vamos a capturar el id del usuario, 
+            tambien podemos tener todo el usuario para pintarlo en la pantalla """
+        # Capturamos el email del usuario guardado:
+        email = request.GET.get('email')
+        # Consultamos en la bd y capturamos el id:
+        try:
+            usuario = Usuario.objects.get(email=email)      # Buscamos el usuario que tenga el email que pasamos en la url
+            user_id = usuario.id                            # Capturamos el id de la consulta anterior   
+        except Usuario.DoesNotExist:
+            user_id = None
+        
+        return render(request, self.template_name, {'user_id': user_id, 'form': self.form_class})
+
+    def form_valid(self, form):
+        """ Si el Formulario está completo se agrega el id de usuario que obtuvimos en el método get """
+        form.instance.usuario = self.request.user_id
+        return super().form_valid(form)    
 
     def get_success_url(self) -> str:
         return reverse_lazy('dashboard') + '?completado'
