@@ -23,5 +23,9 @@
     {
         "id":5,
         "nombre_vulnerabilidad":"Comunidades de Actividades Sexuales Pagadas"
+    },
+    {
+        "id":6,
+        "nombre_vulnerabilidad":"Ninguna"
     }
 ]

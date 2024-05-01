@@ -1,5 +1,5 @@
 {% extends 'registration/menuadmin.html' %}
-{% block title %}Muro{% endblock %}
+{% block titulo %}Usuarios{% endblock %}
 {% load static %}
 
 {% block dash %}
@@ -8,6 +8,7 @@
             <table class="table">
                 <thead class="table-dark">
                   <tr class="text-center">
+                    <th>Perfil</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Identificación</th>
@@ -18,6 +19,7 @@
                 <tbody>
                     {% for user in object_list %}
                         <tr class="text-center">
+                            <td>{{ usuario.groups }}</td>
                             <td>{{ user.first_name }}</td>
                             <td>{{ user.last_name }}</td>
                             <td>{{ user.numero_identificacion }}</td>

@@ -63,12 +63,7 @@ class AddDetailUserView(CreateView):
         except Usuario.DoesNotExist:
             user_id = None
         
-        return render(request, self.template_name, {'user_id': user_id, 'form': self.form_class})
-
-    def form_valid(self, form):
-        """ Si el Formulario está completo se agrega el id de usuario que obtuvimos en el método get """
-        form.instance.usuario = self.request.user_id
-        return super().form_valid(form)    
+        return render(request, self.template_name, {'usuario': usuario, 'form': self.form_class})
 
     def get_success_url(self) -> str:
         return reverse_lazy('dashboard') + '?completado'

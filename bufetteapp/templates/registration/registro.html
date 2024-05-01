@@ -1,132 +1,127 @@
-{% extends 'registration/menuadmin.html' %}
-{% block title %}Muro{% endblock %}
-{% load static %}
-
+{% extends 'registration/menuadmin.html' %} 
+{% block titulo %}Registrar Usuarios{% endblock %}
+{% load static %} 
 {% block dash %}
-    <main class="main-wrapper">
-        <section class="signin-section">
-            <div class="container-fluid">
-              <!-- ========== title-wrapper start ========== -->
-              <div class="title-wrapper pt-30">
-                <div class="row align-items-center">
-                  <div class="col-md-6">
-                    <div class="title">
-                      <h2>Registrar Usuario</h2>
-                    </div>
-                  </div>
-                  <!-- end col -->
-                  <div class="col-md-6">
-                    <div class="breadcrumb-wrapper">
-                      <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                          <li class="breadcrumb-item">
-                            <a href="{% url 'dashboard' %}">Dashboard</a>
-                          </li>
-                          <li class="breadcrumb-item"><a href="#0">Registrar Usuario</a></li>
-                          <li class="breadcrumb-item active" aria-current="page">
-                            Sign up
-                          </li>
-                        </ol>
-                      </nav>
-                    </div>
-                  </div>
-                  <!-- end col -->
-                </div>
-                <!-- end row -->
-              </div>
-              <!-- ========== title-wrapper end ========== -->
-    
-              <div class="row">
-                
-                <!-- end col -->
-                <div class="col-lg-12">
-                  <!-- Formulario de registro de usuario -->
-                  <div class="signup-wrapper">
-                    <div class="form-wrapper">
-                      <form method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                          <div class="col-3">
-                            <div class="select-style-1">
-                              <label for="">Tipo de usuario</label>
-                              <div class="select-position">  
-                                  {{ form.groups }}
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-4">
-                            <div class="input-style-1">
-                                <label for="">Identificación de usuario</label>
-                                {{ form.numero_identificacion }}
-                            </div>
-                          </div>
-                          <div class="col-5">
-                            <div class="input-style-1">
-                                <label for="">Nacionalidad</label>
-                                {{ form.nacionalidad }}
-                            </div>
-                          </div>
-                          <div class="col-6">
-                                <div class="input-style-1">
-                                    <label for="">Nombre de usuario</label>
-                                    {{ form.username }}
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-style-1">
-                                    <label for="">Correo Electrónico</label>
-                                    {{ form.email }}
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-style-1">
-                                    <label for="">Nombres</label>
-                                    {{ form.first_name }}
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-style-1">
-                                    <label for="">Apellidos de usuario</label>
-                                    {{ form.last_name }}
-                                </div>
-                            </div>                            
-                            <div class="col-6">
-                                <div class="input-style-1">
-                                    <label for="">Contraseña</label>
-                                    {{ form.password1 }}
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="input-style-1">
-                                    <label for="">Repita Contraseña</label>
-                                    {{ form.password2 }}
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="button-group d-flex justify-content-center flex-wrap">
-                                  <button class="main-btn primary-btn btn-hover w-100 text-center">
-                                    Registrar Usuario
-                                  </button>
-                                </div>
-                              </div>
-                        </div>
-                      </form>
 
-                    </div>
-                  </div>
-                </div>
-                <!-- end col -->
-              </div>
-              <!-- end row -->
+  <section class="signin-section">
+    <div class="container-fluid">
+      <!-- ========== title-wrapper start ========== -->
+      <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="title">
+              <h2>Registrar Usuario</h2>
             </div>
-          </section>
-    </main>
+          </div>
+          <!-- end col -->
+          <div class="col-md-6">
+            <div class="breadcrumb-wrapper">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item">
+                    <a href="#0">Registrar Usuario</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Sign up
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+      </div>
+      <!-- ========== title-wrapper end ========== -->
 
-    <script>
-      /*
-        Manejo de estilos del select del formulario
-      */
-      const tipo_user = document.getElementById('id_groups');     // Capturamos el id del select
-      tipo_user.classList.add('form-select');                     // Agregamos la clase al dom del html
-    </script>
+      <div class="row">
+        <!-- end col -->
+        <div class="col-lg-12">
+          <!-- Formulario de registro de usuario -->
+          <div class="signup-wrapper">
+            <div class="form-wrapper">
+              <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-3">
+                    <div class="select-style-1">
+                      <label for="">Tipo de usuario</label>
+                      <div class="select-position">{{ form.groups }}</div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="input-style-1">
+                      <label for="">Identificación de usuario</label>
+                      {{ form.numero_identificacion }}
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <div class="input-style-1">
+                      <label for="">Nacionalidad</label>
+                      {{ form.nacionalidad }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-style-1">
+                      <label for="">Nombre de usuario</label>
+                      {{ form.username }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-style-1">
+                      <label for="">Correo Electrónico</label>
+                      {{ form.email }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-style-1">
+                      <label for="">Nombres</label>
+                      {{ form.first_name }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-style-1">
+                      <label for="">Apellidos de usuario</label>
+                      {{ form.last_name }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-style-1">
+                      <label for="">Contraseña</label>
+                      {{ form.password1 }}
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="input-style-1">
+                      <label for="">Repita Contraseña</label>
+                      {{ form.password2 }}
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="button-group d-flex justify-content-center flex-wrap">
+                      <button class="main-btn primary-btn btn-hover w-100 text-center">
+                        Registrar Usuario
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- end col -->
+      </div>
+      <!-- end row -->
+    </div>
+  </section>
+  <script>
+    /*
+          Manejo de estilos del select del formulario
+        */
+    const tipo_user = document.getElementById("id_groups"); // Capturamos el id del select
+    tipo_user.classList.add("form-select"); // Agregamos la clase al dom del html
+  </script>
 {% endblock %}

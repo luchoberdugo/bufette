@@ -18,5 +18,9 @@
     {
         "id":4,
         "nombre_etnia":"Palenqueras"
+    },
+    {
+        "id":5,
+        "nombre_etnia":"Ninguna"
     }
 ]

@@ -24,7 +24,7 @@ class DetalleUserForm(forms.ModelForm):
     """Clase para el formulario de detalles del perfil"""
     class Meta:
         model = DetalleUsuario
-        fields = ('fecha_nacimiento','fecha_expedicion','estado_civil','tipo_documento','genero','etnia','vulnerable')
+        fields = ('usuario','fecha_nacimiento','fecha_expedicion','estado_civil','tipo_documento','genero','etnia','vulnerable')
         widgets = {
             'fecha_nacimiento': forms.DateInput(attrs={'type':'date', 'class': 'form-control'}), 
             'fecha_expedicion': forms.DateInput(attrs={'type':'date', 'class': 'form-control'}), 
