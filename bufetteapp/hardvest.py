@@ -7,12 +7,32 @@ os.environ["DJANGO_SETTINGS_MODULE"] = "src.settings"   # Indico donde se ejecut
 django.setup()                                          # Inicialice django
 
 # Importamos las semillas:
-from seeds.seeddata import TipotelefonoIngestion
+from seeds.seeddata import TipotelefonoIngestion,GeneroIngestion,EtniasIngestion,TipoDocumentoIngestion,EstadoCivilIngestion,VulnerabilidadsIngestion
 
 def execute_seed():
-    semilla = TipotelefonoIngestion() 
+    semilla_tipoTele = TipotelefonoIngestion() 
+    semilla_genero = GeneroIngestion()
+    semilla_etnias = EtniasIngestion()
+    semilla_tipoDocu = TipoDocumentoIngestion()
+    semila_estadoCivil = EstadoCivilIngestion()
+    semilla_vulnerabilidad = VulnerabilidadsIngestion()
 
-    if semilla.should_run():
-        semilla.run()
+    if semilla_tipoTele.should_run():
+        semilla_tipoTele.run()
+
+    if semilla_genero.should_run():
+        semilla_genero.run()
+    
+    if semilla_etnias.should_run():
+        semilla_etnias.run()
+
+    if semilla_tipoDocu.should_run():
+        semilla_tipoDocu.run()
+
+    if semila_estadoCivil.should_run():
+        semila_estadoCivil.run()
+
+    if semilla_vulnerabilidad.should_run():
+        semilla_vulnerabilidad.run()
 
 execute_seed()

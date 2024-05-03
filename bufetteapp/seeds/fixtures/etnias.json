@@ -1,0 +1,26 @@
+[
+    {
+        "id":0,
+        "nombre_etnia":"Indigenas"
+    },
+    {
+        "id":1,
+        "nombre_etnia":"Afrodescendientes"
+    },
+    {
+        "id":2,
+        "nombre_etnia":"Raizales"
+    },
+    {
+        "id":3,
+        "nombre_etnia":"Gitanos"
+    },
+    {
+        "id":4,
+        "nombre_etnia":"Palenqueras"
+    },
+    {
+        "id":5,
+        "nombre_etnia":"Ninguna"
+    }
+]

@@ -1,13 +1,138 @@
 {% extends 'registration/menuadmin.html' %}
-{% block title %}Muro{% endblock %}
+{% block titulo %}Adicionar Datos a Usuario{% endblock %}
 {% load static %}
 
 {% block dash %}
-    <section class="container-fluid">
-        <div class="row">
-            Aquí el formulario, es necesario tener la semilla implementada    
-            <hr>
-            {{ form.as_p }}       
-        </div>
+
+    <section class="section">
+        <section class="container-fluid">
+
+            <!-- ========== title-wrapper start ========== -->
+            <div class="title-wrapper pt-30">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="title">
+                        <h2>Detalle de Usuario</h2>
+                        </div>
+                    </div>
+                <!-- end col -->
+                    <div class="col-md-6">
+                        <div class="breadcrumb-wrapper">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="#0">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="#0">Pages</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    Settings
+                                </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- ========== title-wrapper end ========== -->
+
+            <div class="row">
+                <div class="card-style settings-card-1 col-12">
+                    <section class="profile-info">
+                        <div class="d-flex aling-items-center">
+
+                            <article class="profile-meta">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5>{{ usuario.first_name }} {{ usuario.last_name }}</h5>
+                                        <h5>{{ usuario.numero_identificacion }}</h5>
+                                    </div>
+                                    <div class="col">
+                                        <h5>{{ usuario.email }}</h5>
+                                        <h5>{{ usuario.nacionalidad }}</h5>
+                                    </div>
+                                </div>                                
+                            </article>
+                            
+                        </div>
+                    </section>
+                    <section class="profile-info mt-2">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <input type="hidden" name="usuario" value="{{ usuario.id }}">
+                                <div class="col-4">
+                                    <div class="select-style-1">
+                                      <label for="tipo_documento">Tipo de Documento</label>
+                                      <div class="select-position">  
+                                          {{ form.tipo_documento }}
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-style-1">
+                                      <label for="">Fecha de Expedición Documento</label>
+                                      {{ form.fecha_expedicion }}
+                                    </div>
+                                    <!-- end input -->
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-style-1">
+                                      <label>Fecha de Nacimiento</label>
+                                      {{ form.fecha_nacimiento }}
+                                    </div>
+                                    <!-- end input -->
+                                </div>
+                                <div class="col-3">
+                                    <div class="select-style-1">
+                                      <label for="estado_civil">Estado Civil</label>
+                                      <div class="select-position">  
+                                          {{ form.estado_civil }}
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="select-style-1">
+                                      <label for="genero">Genero</label>
+                                      <div class="select-position">  
+                                          {{ form.genero }}
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="select-style-1">
+                                      <label for="etnia">Etnia</label>
+                                      <div class="select-position">  
+                                          {{ form.etnia }}
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="select-style-1">
+                                      <label for="vulnerable">Vulnerabilidad</label>
+                                      <div class="select-position">  
+                                          {{ form.vulnerable }}
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="button-group d-flex justify-content-center flex-wrap">
+                                        <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">
+                                            Limpiar Formulario
+                                        </button>
+                                      <button type="submit" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
+                                        Adicionar a Usuario
+                                      </button>
+                                    </div>
+                                  </div>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+
+        </section>
     </section>
+
 {% endblock %}
