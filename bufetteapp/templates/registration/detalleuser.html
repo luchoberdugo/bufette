@@ -42,13 +42,13 @@
                     <section class="profile-info">
                         <div class="d-flex aling-items-center">
 
-                            <article class="profile-meta">
+                            <article class="col-12 mb-2">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-4">
                                         <h5>{{ usuario.first_name }} {{ usuario.last_name }}</h5>
                                         <h5>{{ usuario.numero_identificacion }}</h5>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-4">
                                         <h5>{{ usuario.email }}</h5>
                                         <h5>{{ usuario.nacionalidad }}</h5>
                                     </div>
@@ -57,10 +57,12 @@
                             
                         </div>
                     </section>
+                    <hr>
                     <section class="profile-info mt-2">
                         <form method="post">
                             {% csrf_token %}
                             <div class="row">
+                                <!-- Entrada Oculta de usuario-->
                                 <input type="hidden" name="usuario" value="{{ usuario.id }}">
                                 <div class="col-4">
                                     <div class="select-style-1">
@@ -121,9 +123,9 @@
                                         <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">
                                             Limpiar Formulario
                                         </button>
-                                      <button type="submit" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
-                                        Adicionar a Usuario
-                                      </button>
+                                        <button type="submit" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
+                                            Adicionar a Usuario
+                                        </button>
                                     </div>
                                   </div>
                             </div>
