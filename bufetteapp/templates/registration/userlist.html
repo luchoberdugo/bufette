@@ -5,6 +5,45 @@
 {% block dash %}
     <section class="container-fluid">
         <div class="row">
+
+                        <!-- ========== title-wrapper start ========== -->
+                        <div class="title-wrapper pt-30">
+                            <div class="row align-items-center">
+                                <div class="col-md-9 d-flex">
+                                    <div class="title">
+                                        <h2>Listado de Usuarios</h2>
+                                    </div>
+                                    <div class="col mx-2">
+                                        <form action="{% url 'listausuario' %}" method="get">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Buscar Usuario" aria-label="Recipient's username" aria-describedby="button-addon2" name="query" value="{{ request.GET.query }}">
+                                                <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>                                          
+                                            </div>
+                                        </form>                                          
+                                    </div>
+                                </div>
+                            <!-- end col -->
+                                <div class="col-md-3">
+                                    <div class="breadcrumb-wrapper">
+                                        <nav aria-label="breadcrumb">
+                                            <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a href="#0">Dashboard</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a href="#0">Pages</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">
+                                                Settings
+                                            </li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <!-- end row -->
+                        </div>
+                        <!-- ========== title-wrapper end ========== -->
+
             <table class="table">
                 <thead class="table-dark">
                   <tr class="text-center">
@@ -24,11 +63,60 @@
                             <td>{{ user.last_name }}</td>
                             <td>{{ user.numero_identificacion }}</td>
                             <td>{{ user.nacionalidad }}</td>
-                            <td><a href=""><i class="fa-solid fa-user-pen"></i></a></td>
+                            <td>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-user-pen text-info"></i></a>
+                            </td>
                         </tr>
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Recipient:</label>
+                                                <input type="text" class="form-control" id="recipient-name">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="message-text" class="col-form-label">Message:</label>
+                                                <textarea class="form-control" id="message-text"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Send message</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     {% endfor %}
                 </tbody>
-              </table>              
-        </div>
+              </table>
+            {% if is_paginated %}
+                <nav aria-label="Page navigation end-content">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-backward"></i></a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a class="page-link disabled" href="#"><i class="fa-solid fa-backward"></i></a></li>
+                        {% endif %}
+                        {% for item in paginator.page_range %}
+                            <li class="page-item"><a class="page-link" href="?page={{ item }}">{{ item }}</a></li>
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-forward"></i></a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a class="page-link disabled" href="#"><i class="fa-solid fa-forward"></i></a></li>
+                        {% endif %}                        
+                    </ul>
+                </nav>
+            {% endif %}              
+    </div>
     </section>
 {% endblock %}
