@@ -8,11 +8,11 @@ class SignUpUserFormWithEmail(UserCreationForm):
     """ Clase que se encarga de configurar el formuario de registro de usuario """
     email = forms.EmailField(required=True, help_text="Requerido, asegúrese que sea un correo válido")
     # Consulta para filtrar los grupos creados:
-    groups = forms.ModelChoiceField(queryset=Group.objects.all(), empty_label="Selecciona un grupo")
+    # groups = forms.ModelChoiceField(queryset=Group.objects.all(), empty_label="Selecciona un grupo")
 
     class Meta:
         model = Usuario
-        fields = ('username', 'groups', 'first_name', 'last_name', 'email', 'nacionalidad', 'numero_identificacion', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'nacionalidad', 'numero_identificacion', 'password1', 'password2')
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
