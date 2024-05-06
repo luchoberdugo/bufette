@@ -92,18 +92,8 @@ class UserUtilForm(forms.ModelForm):
         data = {}
         form = super()
         try:
+            user_form = form.save(commit=False)
             if form.is_valid():
-                # Guardar el password:
-                pass_user = self.cleaned_data['password'] 
-                user_form = form.save(commit=False)
-                
-                if user_form.pk is None:
-                    user_form.set_password(pass_user)
-                else:
-                    user = Usuario.objects.get(pk=user_form.pk)
-                    if user.password != pass_user:
-                        user_form.set_password(pass_user)
-                    
                 user_form.save()
                 user_form.groups.clear()
                 grupo = self.cleaned_data['groups']
