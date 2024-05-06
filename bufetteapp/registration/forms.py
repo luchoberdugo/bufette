@@ -65,7 +65,56 @@ class SignUpUserFormWithEmail(forms.ModelForm):
             data['error'] = str(e)
         return data
 
-        
+
+class UserUtilForm(forms.ModelForm):
+    # Consulta para filtrar los grupos creados:
+    groups = forms.ModelChoiceField(queryset=Group.objects.all(), empty_label="Perfiles:")
+    class Meta:
+        model = Usuario
+        fields = 'username', 'first_name', 'last_name', 'nacionalidad', 'numero_identificacion', 'groups', 'is_active'
+        widgets = {
+            'groups':  forms.Select(attrs={'class':'form-select'}),  
+            'username':  forms.TextInput(attrs={'class':'form-control'}),  
+            'numero_identificacion':  forms.NumberInput(attrs={'class':'form-control'}),  
+            'nacionalidad':  forms.TextInput(attrs={'class':'form-control'}),  
+            'first_name':  forms.TextInput(attrs={'class':'form-control'}),  
+            'last_name':  forms.TextInput(attrs={'class':'form-control'}),  
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'})  
+        }
+        labels = {
+            'is_active': '¿Es usuario activo?',
+            'groups': 'Perfil de Usuario'
+        }
+        exclude = ['email','last_login', 'date_joined','is_staff', 'is_superuser']
+
+    def save(self, commit= True):
+        """ Método save para guardar toda la info del formulario, incluso agrega el usuario a un grupo determinado """
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                # Guardar el password:
+                pass_user = self.cleaned_data['password'] 
+                user_form = form.save(commit=False)
+                
+                if user_form.pk is None:
+                    user_form.set_password(pass_user)
+                else:
+                    user = Usuario.objects.get(pk=user_form.pk)
+                    if user.password != pass_user:
+                        user_form.set_password(pass_user)
+                    
+                user_form.save()
+                user_form.groups.clear()
+                grupo = self.cleaned_data['groups']
+                # for grupo in self.cleaned_data['groups']:
+                user_form.groups.add(grupo)
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
 
 class DetalleUserForm(forms.ModelForm):
     """Clase para el formulario de detalles del perfil"""

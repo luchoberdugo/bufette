@@ -1,10 +1,12 @@
+from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.http import JsonResponse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 # Importamos el formulario:
-from .forms import SignUpUserFormWithEmail, DetalleUserForm
+from .forms import SignUpUserFormWithEmail, DetalleUserForm, UserUtilForm
 # importamos el modelo de datos:
 from .models import Usuario
+from django.db.models import Q
 
 # Método decorador de login:
 from django.utils.decorators import method_decorator
@@ -57,6 +59,7 @@ class AddDetailUserView(CreateView):
         return render(request, self.template_name, {'usuario': usuario, 'form': self.form_class})
 
     def get_success_url(self) -> str:
+        """ Redirige al dashboard una vez que se completa el formulario """
         return reverse_lazy('dashboard') + '?completado'
     
 @method_decorator(login_required, name='dispatch')
@@ -64,7 +67,7 @@ class UserListView(ListView):
     """ Clase para ver el listado de usuarios """
     model = Usuario
     template_name = 'registration/userlist.html'
-    paginate_by = 5
+    paginate_by = 10
 
     # Método para filtrar:
     def get_queryset(self):
@@ -72,9 +75,24 @@ class UserListView(ListView):
         filtro = self.request.GET.get('query')
 
         if filtro :
-            qs = qs.filter(first_name__icontains=filtro)
+            qs = qs.filter(
+                Q(first_name__icontains=filtro) | Q(last_name__icontains=filtro)
+            )
         return qs
-        
+
+class UserEditView(UpdateView):
+    # success_url = reverse_lazy('listausuario')
+    template_name = 'registration/useredit.html'
+    form_class = UserUtilForm
+
+    def get_object(self):
+        user_obj, created = Usuario.objects.get_or_create(id=self.kwargs['pk'])
+        return user_obj 
+
+    def get_success_url(self) -> str:
+        """ Redirige al dashboard una vez que se completa el formulario """
+        return reverse_lazy('dashboard') + '?completado'
+
 
 
 
