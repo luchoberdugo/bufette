@@ -13,13 +13,16 @@
                                     <div class="title">
                                         <h2>Listado de Usuarios</h2>
                                     </div>
-                                    <div class="col mx-2">
+                                    <div class="col mx-4">
                                         <form action="{% url 'listausuario' %}" method="get">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" placeholder="Buscar Usuario" aria-label="Recipient's username" aria-describedby="button-addon2" name="query" value="{{ request.GET.query }}">
                                                 <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>                                          
                                             </div>
                                         </form>                                          
+                                    </div>
+                                    <div class="col-2 mx-2">
+                                        <a class="btn btn-outline-success" href="{% url 'registro' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Agregar Usuario"><i class="fa-solid fa-user-plus"></i> Nuevo</a>
                                     </div>
                                 </div>
                             <!-- end col -->
@@ -58,7 +61,7 @@
                 <tbody>
                     {% for user in object_list %}
                         <tr class="text-center">
-                            <td>{{ usuario.groups }}</td>
+                            <td>{{ usuario.group }}</td>
                             <td>{{ user.first_name }}</td>
                             <td>{{ user.last_name }}</td>
                             <td>{{ user.numero_identificacion }}</td>
