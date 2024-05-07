@@ -1,0 +1,26 @@
+[
+    {
+        "nombre_genero": "Hombre"
+    },
+    {
+        "nombre_genero": "Mujer"
+    },
+    {
+        "nombre_genero": "Hombre Trans y  Personas Transmasculinas"
+    },
+    {
+        "nombre_genero": "Mujer Trans y Personas Transfemeninas"
+    },
+    {
+        "nombre_genero": "Persona Trans"
+    },
+    {
+        "nombre_genero": "Persona no Binaria"
+    },
+    {
+        "nombre_genero": "Otras Identidades de Género no Hegemónicas"
+    },
+    {
+        "nombre_genero": "Sin Información"
+    }
+]

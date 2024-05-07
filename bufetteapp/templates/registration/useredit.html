@@ -1,5 +1,5 @@
 {% extends 'registration/menuadmin.html' %} 
-{% block titulo %}Registrar Usuarios{% endblock %}
+{% block titulo %}Editar Usuario{% endblock %}
 {% load static %} 
 {% block dash %}
 
@@ -22,7 +22,7 @@
                     <a href="{% url 'dashboard' %}">Dashboard</a>
                   </li>
                   <li class="breadcrumb-item">
-                    <a href="#0">Registrar Usuario</a>
+                    <a href="#0">Editar Usuario</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
                     Sign up
@@ -73,7 +73,7 @@
                   <div class="col-6">
                     <div class="input-style-1">
                       <label for="">Correo Electrónico</label>
-                      {{ form.email }}
+                      {{ form.is_active }}
                     </div>
                   </div>
                   <div class="col-6">
@@ -88,13 +88,8 @@
                       {{ form.last_name }}
                     </div>
                   </div>
-                  <div class="col-6">
-                    <div class="input-style-1">
-                      <label for="">Contraseña</label>
-                      {{ form.password }}
-                    </div>
-                  </div>
-                  <div class="col-6">
+
+                  <div class="col-12">
                     <div class="">
                       <ul>
                         {% for field in form %}
@@ -112,8 +107,8 @@
                       <button type="reset" class="main-btn light-btn btn-hover w-40 text-center mx-2">
                         Cancelar
                       </button>
-                      <button type="submit" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
-                        Registrar Usuario
+                      <button type="submit" class="main-btn info-btn btn-hover w-30 text-center mx-2">
+                        Editar Usuario
                       </button>
                     </div>
                   </div>

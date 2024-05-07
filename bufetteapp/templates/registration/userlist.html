@@ -1,0 +1,131 @@
+{% extends 'registration/menuadmin.html' %}
+{% block titulo %}Usuarios{% endblock %}
+{% load static %}
+
+{% block dash %}
+    <section class="container-fluid">
+        <div class="row">
+
+                        <!-- ========== title-wrapper start ========== -->
+                        <div class="title-wrapper pt-30">
+                            <div class="row align-items-center">
+                                <div class="col-md-9 d-flex">
+                                    <div class="title">
+                                        <h2>Listado de Usuarios</h2>
+                                    </div>
+                                    <div class="col mx-4">
+                                        <form action="{% url 'listausuario' %}" method="get">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="Buscar Usuario" aria-label="Recipient's username" aria-describedby="button-addon2" name="query" value="{{ request.GET.query }}">
+                                                <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>                                          
+                                            </div>
+                                        </form>                                          
+                                    </div>
+                                    <div class="col-2 mx-2">
+                                        <a class="btn btn-outline-success" id="tooltip" href="{% url 'registro' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Agregar Usuario"><i class="fa-solid fa-user-plus"></i> Nuevo</a>
+                                    </div>
+                                </div>
+                            <!-- end col -->
+                                <div class="col-md-3">
+                                    <div class="breadcrumb-wrapper">
+                                        <nav aria-label="breadcrumb">
+                                            <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a href="#0">Dashboard</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a href="#0">Pages</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">
+                                                Settings
+                                            </li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <!-- end col -->
+                            </div>
+                            <!-- end row -->
+                        </div>
+                        <!-- ========== title-wrapper end ========== -->
+
+            <table class="table">
+                <thead class="table-dark">
+                  <tr class="text-center">
+                    <th>Perfil</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Identificación</th>
+                    <th>Nacionalidad</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for user in object_list %}
+                        <tr class="text-center">
+                            <td>{% for grupo in user.groups.all %} {{grupo.name}} {% endfor %}</td>
+                            <td>{{ user.first_name }}</td>
+                            <td>{{ user.last_name }}</td>
+                            <td>{{ user.numero_identificacion }}</td>
+                            <td>{{ user.nacionalidad }}</td>
+                            <td>
+                                <a href="{% url 'editausuario' pk=user.id %}" title="Editar Usuario"><i class="fa-solid fa-user-pen text-info"></i></a> |
+                                <a href="#" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a>
+                            </td>
+                        </tr>                      
+                    {% endfor %}
+                </tbody>
+              </table>
+            {% if is_paginated %}
+                <nav aria-label="Page navigation end-content">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-backward"></i></a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a class="page-link disabled" href="#"><i class="fa-solid fa-backward"></i></a></li>
+                        {% endif %}
+                        {% for item in paginator.page_range %}
+                            <li class="page-item"><a class="page-link" href="?page={{ item }}">{{ item }}</a></li>
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-forward"></i></a></li>
+                        {% else %}
+                            <li class="page-item disabled"><a class="page-link disabled" href="#"><i class="fa-solid fa-forward"></i></a></li>
+                        {% endif %}                        
+                    </ul>
+                </nav>
+            {% endif %}              
+    </div>
+    </section>
+
+    <!-- Modal de edición de usuario -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Información del Usuario {{ user.first_name }} {{ user.last_name }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Recipient:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const buttonadduser = document.getElementById('tooltip')
+        const tooltip = new bootstrap.Tooltip(buttonadduser, options)
+    </script>
+{% endblock %}
