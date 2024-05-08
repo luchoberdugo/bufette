@@ -10,7 +10,7 @@
         <div class="row align-items-center">
           <div class="col-md-6">
             <div class="title">
-              <h2>Registrar Usuario</h2>
+              <h2>Editar Usuario</h2>
             </div>
           </div>
           <!-- end col -->
@@ -19,13 +19,13 @@
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">
-                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                    <a href="{% url 'dashboard' %}">Registro Único de Peticiones</a>
                   </li>
                   <li class="breadcrumb-item">
-                    <a href="#0">Editar Usuario</a>
+                    <a href="{% url 'listausuario' %}">Usuarios</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
-                    Sign up
+                    Edición
                   </li>
                 </ol>
               </nav>
@@ -64,25 +64,20 @@
                       {{ form.nacionalidad }}
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                     <div class="input-style-1">
                       <label for="">Nombre de usuario</label>
                       {{ form.username }}
                     </div>
                   </div>
-                  <div class="col-6">
-                    <div class="input-style-1">
-                      <label for="">Correo Electrónico</label>
-                      {{ form.is_active }}
-                    </div>
-                  </div>
-                  <div class="col-6">
+
+                  <div class="col-4">
                     <div class="input-style-1">
                       <label for="">Nombres</label>
                       {{ form.first_name }}
                     </div>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4">
                     <div class="input-style-1">
                       <label for="">Apellidos de usuario</label>
                       {{ form.last_name }}
@@ -104,6 +99,11 @@
                   </div>
                   <div class="col-12">
                     <div class="button-group d-flex justify-content-center flex-wrap">
+                      {% if form.is_active %}
+                        <span class="main-btn secondary-btn btn-hover w-40 text-center mx-2">Usuario Activo</span>
+                      {% else %}
+                        <span class="main-btn danger-btn btn-hover w-40 text-center mx-2">Usuario Inactivo</span>
+                      {% endif %}
                       <button type="reset" class="main-btn light-btn btn-hover w-40 text-center mx-2">
                         Cancelar
                       </button>

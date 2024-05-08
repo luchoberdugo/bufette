@@ -1,7 +1,7 @@
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
-from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.shortcuts import render, redirect
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, View
 # Importamos el formulario:
 from .forms import SignUpUserFormWithEmail, DetalleUserForm, UserUtilForm
 # importamos el modelo de datos:
@@ -13,9 +13,12 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
 
 # Importamos paquete de resolución de urls:
 from django.urls import reverse_lazy
+
+# ---------------------------------  CRUD DE USUARIO COMPLETO ---------------------------------
 
 # Create your views here.
 @method_decorator(login_required, name='dispatch')
@@ -81,7 +84,6 @@ class UserListView(ListView):
         return qs
 
 class UserEditView(UpdateView):
-    # success_url = reverse_lazy('listausuario')
     template_name = 'registration/useredit.html'
     form_class = UserUtilForm
 
@@ -92,6 +94,24 @@ class UserEditView(UpdateView):
     def get_success_url(self) -> str:
         """ Redirige al dashboard una vez que se completa el formulario """
         return reverse_lazy('dashboard') + '?completado'
+    
+
+class UserActivateOrDeactivateView(View):
+    
+    def get(self, request, pk):
+        user = get_user_model().objects.get(id=pk)
+
+        if user.is_active:
+            user.is_active = False
+        else:
+            user.is_active = True
+        
+        user.save()
+
+        return redirect('listausuario')
+        
+# ---------------------------------  CRUD DE USUARIO COMPLETO ---------------------------------
+
 
 
 

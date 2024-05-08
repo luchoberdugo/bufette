@@ -8,6 +8,7 @@ django.setup()                                          # Inicialice django
 
 # Importamos las semillas:
 from seeds.seeddata import TipotelefonoIngestion,GeneroIngestion,EtniasIngestion,TipoDocumentoIngestion,EstadoCivilIngestion,VulnerabilidadsIngestion
+from seeds.datadepto import DepartamentoSeed
 
 def execute_seed():
     semilla_tipoTele = TipotelefonoIngestion() 
@@ -16,6 +17,7 @@ def execute_seed():
     semilla_tipoDocu = TipoDocumentoIngestion()
     semila_estadoCivil = EstadoCivilIngestion()
     semilla_vulnerabilidad = VulnerabilidadsIngestion()
+    departamento_seed = DepartamentoSeed()
 
     if semilla_tipoTele.should_run():
         semilla_tipoTele.run()
@@ -34,5 +36,8 @@ def execute_seed():
 
     if semilla_vulnerabilidad.should_run():
         semilla_vulnerabilidad.run()
+    
+    if departamento_seed.should_run():
+        departamento_seed.run()
 
 execute_seed()
