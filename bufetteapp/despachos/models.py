@@ -11,7 +11,7 @@ class TipoDespacho(models.Model):
         ordering = ('nombre_tipo_despacho',)
 
     def __str__(self) -> str:
-        return f'{self.nombreTipoDespacho}'
+        return f'{self.nombre_tipo_despacho}'
     
 class Despacho(models.Model):
     tipo_despacho = models.ForeignKey(TipoDespacho, on_delete=models.CASCADE)

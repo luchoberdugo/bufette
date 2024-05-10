@@ -60,17 +60,31 @@
                 </thead>
                 <tbody>
                     {% for user in object_list %}
-                        <tr class="text-center">
-                            <td>{% for grupo in user.groups.all %} {{grupo.name}} {% endfor %}</td>
-                            <td>{{ user.first_name }}</td>
-                            <td>{{ user.last_name }}</td>
-                            <td>{{ user.numero_identificacion }}</td>
-                            <td>{{ user.nacionalidad }}</td>
-                            <td>
-                                <a href="{% url 'editausuario' pk=user.id %}" title="Editar Usuario"><i class="fa-solid fa-user-pen text-info"></i></a> |
-                                <a href="#" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a>
-                            </td>
-                        </tr>                      
+                        {% if not user.is_superuser %}
+                            <tr class="text-center">
+                                <td>{% for grupo in user.groups.all %} {{grupo.name}} {% endfor %}</td>
+                                <td>{{ user.first_name }}</td>
+                                <td>{{ user.last_name }}</td>
+                                <td>{{ user.numero_identificacion }}</td>
+                                <td>{{ user.nacionalidad }}</td>
+                                {% if user.is_active %}
+                                    <td>
+                                        <a href="{% url 'editausuario' pk=user.id %}" title="Editar Usuario"><i class="fa-solid fa-user-pen text-info"></i></a> |
+                                        <a href="#" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a> |
+                                        <a href="#" title="Ver Procesos" class="text-secondary"><i class="fa-solid fa-chalkboard-user"></i></a> |
+                                        <a href="{% url 'editaestado' pk=user.id %}" title="Desactivar Usuario" class="text-danger"><i class="fa-solid fa-user-slash"></i>></a>
+                                    </td>
+                                {% else %}
+                                    <td>
+                                        <a href="{% url 'editaestado' pk=user.id %}" title="Activar Usuario" class="text-success"><i class="fa-solid fa-user-plus"></i></a> |
+                                        <a href="#" title="Ver Procesos" class="text-secondary"><i class="fa-solid fa-chalkboard-user"></i></a>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No hay usuarios registrados.</td>
                     {% endfor %}
                 </tbody>
               </table>
