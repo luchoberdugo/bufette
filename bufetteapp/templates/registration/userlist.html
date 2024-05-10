@@ -22,7 +22,7 @@
                                         </form>                                          
                                     </div>
                                     <div class="col-2 mx-2">
-                                        <a class="btn btn-outline-success" href="{% url 'registro' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Agregar Usuario"><i class="fa-solid fa-user-plus"></i> Nuevo</a>
+                                        <a class="btn btn-outline-success" id="tooltip" href="{% url 'registro' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Agregar Usuario"><i class="fa-solid fa-user-plus"></i> Nuevo</a>
                                     </div>
                                 </div>
                             <!-- end col -->
@@ -60,44 +60,31 @@
                 </thead>
                 <tbody>
                     {% for user in object_list %}
-                        <tr class="text-center">
-                            <td>{{ usuario.group }}</td>
-                            <td>{{ user.first_name }}</td>
-                            <td>{{ user.last_name }}</td>
-                            <td>{{ user.numero_identificacion }}</td>
-                            <td>{{ user.nacionalidad }}</td>
-                            <td>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-user-pen text-info"></i></a>
-                            </td>
-                        </tr>
-
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            <div class="mb-3">
-                                                <label for="recipient-name" class="col-form-label">Recipient:</label>
-                                                <input type="text" class="form-control" id="recipient-name">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="message-text" class="col-form-label">Message:</label>
-                                                <textarea class="form-control" id="message-text"></textarea>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Send message</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        {% if not user.is_superuser %}
+                            <tr class="text-center">
+                                <td>{% for grupo in user.groups.all %} {{grupo.name}} {% endfor %}</td>
+                                <td>{{ user.first_name }}</td>
+                                <td>{{ user.last_name }}</td>
+                                <td>{{ user.numero_identificacion }}</td>
+                                <td>{{ user.nacionalidad }}</td>
+                                {% if user.is_active %}
+                                    <td>
+                                        <a href="{% url 'editausuario' pk=user.id %}" title="Editar Usuario"><i class="fa-solid fa-user-pen text-info"></i></a> |
+                                        <a href="#" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a> |
+                                        <a href="#" title="Ver Procesos" class="text-secondary"><i class="fa-solid fa-chalkboard-user"></i></a> |
+                                        <a href="{% url 'editaestado' pk=user.id %}" title="Desactivar Usuario" class="text-danger"><i class="fa-solid fa-user-slash"></i>></a>
+                                    </td>
+                                {% else %}
+                                    <td>
+                                        <a href="{% url 'editaestado' pk=user.id %}" title="Activar Usuario" class="text-success"><i class="fa-solid fa-user-plus"></i></a> |
+                                        <a href="#" title="Ver Procesos" class="text-secondary"><i class="fa-solid fa-chalkboard-user"></i></a>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
+                        {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No hay usuarios registrados.</td>
                     {% endfor %}
                 </tbody>
               </table>
@@ -122,4 +109,37 @@
             {% endif %}              
     </div>
     </section>
+
+    <!-- Modal de edición de usuario -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Información del Usuario {{ user.first_name }} {{ user.last_name }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Recipient:</label>
+                            <input type="text" class="form-control" id="recipient-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="message-text"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const buttonadduser = document.getElementById('tooltip')
+        const tooltip = new bootstrap.Tooltip(buttonadduser, options)
+    </script>
 {% endblock %}

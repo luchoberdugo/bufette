@@ -1,5 +1,6 @@
 import json
-from  registration.models import TipoTelefono, Genero, TipoDocumento, Etnias, EstadoCivil, Vulnerabilidades
+from registration.models import TipoTelefono, Genero, TipoDocumento, Etnias, EstadoCivil, Vulnerabilidades
+from despachos.models import TipoDespacho, Despacho
 
 # Clases para la ingesta de datos:
 class TipotelefonoIngestion:
@@ -111,3 +112,23 @@ class VulnerabilidadsIngestion:
         for item in self.datos:
             vulnerabilidad_model = Vulnerabilidades(nombre_vulnerabilidad = item['nombre_vulnerabilidad'])
             vulnerabilidad_model.save()
+
+# Clases para las adiciones de semillas de Jhonathan:
+
+class DespachoIngestion:
+    def __init__(self) -> None:
+        with open('seeds/fixtures/despacho.json', encoding = 'utf8') as despacho_data:
+            self.despachos = json.load(despacho_data)
+
+    def should_run(self):
+        return Despacho.objects.count() == 0
+    
+    def run(self):
+        for despacho in self.despachos:
+            tipo_despacho_model = TipoDespacho(nombre_tipo_despacho = despacho['tipo_despacho'])
+            tipo_despacho_model.save()
+
+            for item in despacho["nombre_despacho"]:
+                despacho_model = Despacho(tipo_despacho = tipo_despacho_model, nombre_despacho = item)
+                despacho_model.save()
+            
