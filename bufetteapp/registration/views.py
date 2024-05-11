@@ -81,7 +81,7 @@ class UserListView(ListView):
             qs = qs.filter(
                 Q(first_name__icontains=filtro) | Q(last_name__icontains=filtro)
             )
-        return qs
+        return qs.order_by('groups__name','-is_active')
 
 class UserEditView(UpdateView):
     template_name = 'registration/useredit.html'

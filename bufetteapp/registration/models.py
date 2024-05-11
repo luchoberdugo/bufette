@@ -80,6 +80,7 @@ class Usuario(AbstractUser):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+
 class DetalleUsuario(models.Model):
     """ """
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Usuario")
