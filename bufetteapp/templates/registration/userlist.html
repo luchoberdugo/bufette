@@ -70,7 +70,9 @@
                                 {% if user.is_active %}
                                     <td>
                                         <a href="{% url 'editausuario' pk=user.id %}" title="Editar Usuario"><i class="fa-solid fa-user-pen text-info"></i></a> |
-                                        <a href="#" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a> |
+                                        {% if user.groups.first.name == 'Clientes' %}
+                                            <a href="#" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a> |
+                                        {% endif %}
                                         <a href="#" title="Ver Procesos" class="text-secondary"><i class="fa-solid fa-chalkboard-user"></i></a> |
                                         <a href="{% url 'editaestado' pk=user.id %}" title="Desactivar Usuario" class="text-danger"><i class="fa-solid fa-user-slash"></i>></a>
                                     </td>
@@ -85,6 +87,7 @@
                         {% empty %}
                             <tr>
                                 <td colspan="6" class="text-center">No hay usuarios registrados.</td>
+                            </tr>
                     {% endfor %}
                 </tbody>
               </table>

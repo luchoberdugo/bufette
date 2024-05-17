@@ -39,7 +39,6 @@ class SignUpUserView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         # Agrega el correo electrónico a la URL de redirección
         email = self.request.POST["email"]
-        print(email)
         return reverse_lazy('detalle_usuario') + f'?email={email}'      # Se cambia el parámetro de url para poder buscar el id mas adelante en la pantala siguiente
 
     
@@ -89,10 +88,12 @@ class UserEditView(UpdateView):
 
     def get_object(self):
         user_obj, created = Usuario.objects.get_or_create(id=self.kwargs['pk'])
+        if user_obj.is_active:
+            user_obj.is_active = True
         return user_obj 
 
     def get_success_url(self) -> str:
-        """ Redirige al dashboard una vez que se completa el formulario """
+        """ Redirige al dashboard una vez que se completa el formulario """  
         return reverse_lazy('dashboard') + '?completado'
     
 

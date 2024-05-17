@@ -52,16 +52,27 @@
                       <div class="select-position">{{ form.groups }}</div>
                     </div>
                   </div>
-                  <div class="col-4">
+                  <div class="col-3">
                     <div class="input-style-1">
                       <label for="">Identificación de usuario</label>
                       {{ form.numero_identificacion }}
                     </div>
                   </div>
-                  <div class="col-5">
+                  <div class="col-3">
                     <div class="input-style-1">
                       <label for="">Nacionalidad</label>
                       {{ form.nacionalidad }}
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="form-check form-switch toggle-switch mt-5">
+                      {% if form.is_active  %}
+                        <label for="">Usuario Activo</label>
+                        {{ form.is_active }}
+                      {% else %}
+                        <label for="">Usuario Inactivo</label>
+                        {{ form.is_active }}
+                      {% endif %}
                     </div>
                   </div>
                   <div class="col-4">
@@ -99,15 +110,10 @@
                   </div>
                   <div class="col-12">
                     <div class="button-group d-flex justify-content-center flex-wrap">
-                      {% if form.is_active %}
-                        <span class="main-btn secondary-btn btn-hover w-40 text-center mx-2">Usuario Activo</span>
-                      {% else %}
-                        <span class="main-btn danger-btn btn-hover w-40 text-center mx-2">Usuario Inactivo</span>
-                      {% endif %}
                       <button type="reset" class="main-btn light-btn btn-hover w-40 text-center mx-2">
                         Cancelar
                       </button>
-                      <button type="submit" class="main-btn info-btn btn-hover w-30 text-center mx-2">
+                      <button type="submit" class="main-btn info-btn btn-hover w-40 text-center mx-2">
                         Editar Usuario
                       </button>
                     </div>
