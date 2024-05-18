@@ -1,5 +1,5 @@
 {% extends 'registration/menuadmin.html' %} 
-{% block titulo %}Editar Usuario{% endblock %}
+{% block titulo %}Perfil de Usuario{% endblock %}
 {% load static %} 
 {% block dash %}
 
@@ -38,6 +38,37 @@
         <!-- ========== title-wrapper end ========== -->
         <div class="row">
             <!-- Contenido de perfil de usuario -->
+            <div class="card mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h4 class="card-title">{{ request.user.first_name }} {{ request.user.last_name }}</h4>
+                      <div class="row">
+
+                        <div class="col-md-4">
+                            <p class="card-text">Email de Usuario:</p>
+                            <p class="card-text">Fecha de Registro:</p>
+                            <p class="card-text">Nacionalidad de Usuario:</p>
+                            <p class="card-text">Número de Identificación</p>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="card-text">{{ request.user.email}}</p>
+                            <p class="card-text">{{ request.user.date_joined}}</p>
+                            <p class="card-text">{{ request.user.nacionalidad}}</p>
+                            <p class="card-text">{{ request.user.numero_identificacion}}</p>
+                        </div>
+                      </div>
+                      <hr>
+                      <p class="card-text"><small class="text-body-secondary">Último Inicio de Sesión: {{ request.user.last_login }}</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
 </section>
+
+{% endblock %}

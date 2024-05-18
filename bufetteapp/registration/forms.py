@@ -1,6 +1,6 @@
 from django import forms
 from django.http import JsonResponse
-from .models import Usuario, DetalleUsuario
+from .models import Usuario, DetalleUsuario, TarjetaProfesional
 # Importaciones para traer un grupo desde el formulario:
 from django.contrib.auth.models import Group
 
@@ -119,4 +119,16 @@ class DetalleUserForm(forms.ModelForm):
             'genero' : forms.Select(attrs={'class':'form-select'}),
             'etnia' : forms.Select(attrs={'class':'form-select'}),
             'vulnerable' : forms.Select(attrs={'class':'form-select'})
+        }
+
+class IdProfessionalForm(forms.ModelForm):
+    """Clase para el formulario de identificación profesional del abogado """
+    class Meta:
+        model = TarjetaProfesional
+        fields = ('abogado', 'tarjeta_profesional', 'tarjeta_provisional', 'numero_tarjeta','fecha_expedicion')
+        widgets = {
+            'tarjeta_profesional': forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'tarjeta_provisional': forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'numero_tarjeta': forms.NumberInput(attrs={'class':'form-control'}),
+            'fecha_expedicion': forms.DateInput(attrs={'type':'date', 'class': 'form-control'})
         }
