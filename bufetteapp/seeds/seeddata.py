@@ -1,6 +1,7 @@
 import json
 from registration.models import TipoTelefono, Genero, TipoDocumento, Etnias, EstadoCivil, Vulnerabilidades
 from despachos.models import TipoDespacho, Despacho
+from django.contrib.auth.models import Group
 
 # Clases para la ingesta de datos:
 class TipotelefonoIngestion:
@@ -131,4 +132,17 @@ class DespachoIngestion:
             for item in despacho["nombre_despacho"]:
                 despacho_model = Despacho(tipo_despacho = tipo_despacho_model, nombre_despacho = item)
                 despacho_model.save()
+
+
+class GruposIngestion:
+    def __init__(self) -> None:
+       self.grupos = ['Abogados','Administradores', 'Clientes']
+
+    def should_run(self):
+        return Group.objects.count() == 0
+    
+    def run(self):
+        for grupo in self.grupos:
+            grupo_model = Group(name = grupo)
+            grupo_model.save()
             

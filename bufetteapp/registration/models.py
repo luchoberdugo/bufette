@@ -100,6 +100,23 @@ class DetalleUsuario(models.Model):
 
     def __str__(self):
         return f'{self.usuario}'
+    
+class TarjetaProfesional(models.Model):
+    """ Clase para registrar a los profesionales del sistema"""
+    abogado = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Abogado")
+    tarjeta_profesional = models.BooleanField('Cuenta con Tarjeta Profesional')
+    tarjeta_provisional = models.BooleanField('Es Tarjeta Provisional', null=True, blank=True)
+    numero_tarjeta = models.PositiveBigIntegerField("Número de Tarjeta", max_length=8)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Tarjetas Profesionales'
+        verbose_name_plural = 'Tarjetas Profesionales'
+
+    def __str__(self) -> str:
+        return f'{self.abogado} {self.numero_tarjeta}'
+    
 
 class TipoTelefono(models.Model):
     """ Modelo para los tipos de teléfonos que puede tener una persona."""
