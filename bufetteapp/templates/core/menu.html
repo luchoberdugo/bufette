@@ -23,9 +23,9 @@
         {% if request.user.is_authenticated %}
           <ul class="d-flex navbar-nav mt-2">
             <li class="nav-item">
-              <button class="btn btn-dark" href="#" role="button">
-                {{ request.user.username }}
-              </button>
+              <a class="btn btn-dark" href="{% url 'dashboard' %}" role="button">
+                <i class="fa-solid fa-circle-user"></i> {{ request.user.username }}
+              </a>
             </li>
           </ul>
         {% else %}
