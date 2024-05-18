@@ -1,11 +1,10 @@
 from django.db.models.base import Model as Model
-from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, View
 # Importamos el formulario:
-from .forms import SignUpUserFormWithEmail, DetalleUserForm, UserUtilForm
+from .forms import SignUpUserFormWithEmail, DetalleUserForm, UserUtilForm, IdProfessionalForm
 # importamos el modelo de datos:
-from .models import Usuario
+from .models import Usuario, DetalleUsuario
 from django.db.models import Q
 
 # Método decorador de login:
@@ -62,7 +61,32 @@ class AddDetailUserView(CreateView):
 
     def get_success_url(self) -> str:
         """ Redirige al dashboard una vez que se completa el formulario """
-        return reverse_lazy('dashboard') + '?completado'
+        if self.usuario.group.first.name == 'Abogados':
+            return reverse_lazy('tarjeta_profesional')+  f'?email={self.email}'
+        else:
+            return reverse_lazy('listausuario') + '?completado'
+    
+
+class AddIdProfessionalView(CreateView):
+    """ Clase para agregar la tarjeta profesional del usuario abogado """
+    template_name = 'registration/tarjeta_form.html'
+    form_class = IdProfessionalForm
+
+    def get(self, request, *args, **kwargs):
+        # Capturamos el email del usuario guardado:
+        email = request.GET.get('email')
+
+        try:
+            usuario = Usuario.objects.get(email=email)      # Buscamos el usuario que tenga el email que pasamos en la url
+        except Usuario.DoesNotExist:
+            usuario = None
+        
+        return render(request, self.template_name, {'usuario': usuario, 'form': self.form_class})
+
+    def get_success_url(self) -> str:
+        """ Redirige al dashboard una vez que se completa el formulario """
+        return reverse_lazy('listausuario') + '?completado'
+    
     
 @method_decorator(login_required, name='dispatch')
 class UserListView(ListView):
@@ -94,7 +118,7 @@ class UserEditView(UpdateView):
 
     def get_success_url(self) -> str:
         """ Redirige al dashboard una vez que se completa el formulario """  
-        return reverse_lazy('dashboard') + '?completado'
+        return reverse_lazy('listausuario') + '?completado'
     
 
 class UserActivateOrDeactivateView(View):
@@ -110,6 +134,17 @@ class UserActivateOrDeactivateView(View):
         user.save()
 
         return redirect('listausuario')
+    
+
+class PerfilUserView(TemplateView):
+    template_name = 'registration/perfiluser.html'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        #  detalle_user = DetalleUsuario.objects.get.all(usuario = request.user.id)
+        return render(request, self.template_name)
+    
+
         
 # ---------------------------------  CRUD DE USUARIO COMPLETO ---------------------------------
 

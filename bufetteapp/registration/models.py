@@ -107,6 +107,7 @@ class TarjetaProfesional(models.Model):
     tarjeta_profesional = models.BooleanField('Cuenta con Tarjeta Profesional', null=True, blank=True)
     tarjeta_provisional = models.BooleanField('Es Tarjeta Provisional', null=True, blank=True)
     numero_tarjeta = models.PositiveBigIntegerField("Número de Tarjeta", max_length=8)
+    fecha_expedicion = models.DateField(blank=True, null=True, verbose_name='Fecha Expedición Documento')
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
