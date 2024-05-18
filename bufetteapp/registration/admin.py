@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TipoDocumento, Genero, Etnias, Vulnerabilidades, Usuario, TipoTelefono, TelefonoUser, DetalleUsuario, EstadoCivil
+from .models import TipoDocumento, Genero, Etnias, Vulnerabilidades, Usuario, TipoTelefono, TelefonoUser, DetalleUsuario, TarjetaProfesional, EstadoCivil
 
 # Clases para visualizar comodamente en el admin:
 class TipoDocumentoAdmin(admin.ModelAdmin):
@@ -46,4 +46,5 @@ admin.site.register(Genero, GeneroAdmin)
 admin.site.register(Etnias, EtniasAdmin)
 admin.site.register(Vulnerabilidades, VulnerabilidadesAdmin)
 admin.site.register(DetalleUsuario)
+admin.site.register(TarjetaProfesional)
 admin.site.register(EstadoCivil)
