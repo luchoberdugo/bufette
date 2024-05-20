@@ -1,6 +1,7 @@
 from django.db.models.base import Model as Model
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, View
+from django.db.models.query import QuerySet
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, View, DetailView
 # Importamos el formulario:
 from .forms import SignUpUserFormWithEmail, DetalleUserForm, UserUtilForm, IdProfessionalForm
 # importamos el modelo de datos:
@@ -138,12 +139,31 @@ class UserActivateOrDeactivateView(View):
 
 class PerfilUserView(TemplateView):
     template_name = 'registration/perfiluser.html'
+    detalle_usuario_list = []
+    perfil_usuario = None
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        #  detalle_user = DetalleUsuario.objects.get.all(usuario = request.user.id)
-        return render(request, self.template_name)
-    
+
+        detalle_usuario = DetalleUsuario.objects.filter(usuario = request.user.id)
+
+        for item in detalle_usuario:
+            detail = {
+                'id' : item.id,
+                'fecha_nacimiento': item.fecha_nacimiento,
+                'fecha_expedicion': item.fecha_expedicion,
+                'estado_civil': item.estado_civil,
+                'tipo_documento': item.tipo_documento,
+                'genero': item.genero,
+                'etnia': item.etnia,
+                'vulnerable': item.vulnerable
+            }
+
+            if detail not in self.detalle_usuario_list:
+                self.detalle_usuario_list.append(detail)
+
+            
+
+        return render(request, self.template_name, {'detalle': self.detalle_usuario_list})
 
         
 # ---------------------------------  CRUD DE USUARIO COMPLETO ---------------------------------
