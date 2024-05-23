@@ -46,6 +46,7 @@
                   <div class="col-md-8">
                     <div class="card-body">
                       <h4 class="card-title">{{ request.user.first_name }} {{ request.user.last_name }}</h4>
+                      <h5 class="card-title text-success">Perfil de usuario: {{ request.user.groups.first.name }}</h5>
                       <div class="row">
 
                         <div class="col-md-4">
@@ -53,12 +54,26 @@
                             <p class="card-text">Fecha de Registro:</p>
                             <p class="card-text">Nacionalidad de Usuario:</p>
                             <p class="card-text">Número de Identificación</p>
+                            <p class="card-text">Fecha de Expedición</p>
+                            <p class="card-text">Fecha de Nacimiento</p>
+                            <p class="card-text">Genero</p>
+                            <p class="card-text">Estado Civil</p>
+                            <p class="card-text">Etnia</p>
+                            <p class="card-text">Tipo de Vulnerabilidad</p>
                         </div>
                         <div class="col-md-8">
-                            <p class="card-text">{{ request.user.email}}</p>
-                            <p class="card-text">{{ request.user.date_joined}}</p>
-                            <p class="card-text">{{ request.user.nacionalidad}}</p>
-                            <p class="card-text">{{ request.user.numero_identificacion}}</p>
+                            {% for item in detalle %}
+                                <p class="card-text">{{ request.user.email}}</p>
+                                <p class="card-text">{{ request.user.date_joined}}</p>
+                                <p class="card-text">{{ request.user.nacionalidad}}</p>
+                                <p class="card-text">{{ item.tipo_documento }} - {{ request.user.numero_identificacion}}</p>
+                                <p class="card-text">{{ item.fecha_expedicion }}</p>
+                                <p class="card-text">{{ item.fecha_nacimiento }}</p>
+                                <p class="card-text">{{ item.genero }}</p>
+                                <p class="card-text">{{ item.estado_civil }}</p>
+                                <p class="card-text">{{ item.etnia }}</p>
+                                <p class="card-text">{{ item.vulnerable }}</p>
+                            {% endfor %}
                         </div>
                       </div>
                       <hr>
