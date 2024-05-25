@@ -71,7 +71,7 @@
                                     <td>
                                         <a href="{% url 'editausuario' pk=user.id %}" title="Editar Usuario"><i class="fa-solid fa-user-pen text-info"></i></a> |
                                         {% if user.groups.first.name == 'Clientes' %}
-                                            <a href="#" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a> |
+                                            <a href="{% url 'solicitud_nueva' pk=user.id %}" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a> |
                                         {% endif %}
                                         <a href="#" title="Ver Procesos" class="text-secondary"><i class="fa-solid fa-chalkboard-user"></i></a> |
                                         <a href="{% url 'editaestado' pk=user.id %}" title="Desactivar Usuario" class="text-danger"><i class="fa-solid fa-user-slash"></i>></a>

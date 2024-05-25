@@ -9,18 +9,18 @@ class SolicitudForm(forms.ModelForm):
         fields = 'usuario', 'fecha_solicitud', 'descripcion_hechos', 'tipo_orientacion', 'decision_adoptada', 'observacion_adicional'         
         widgets = {
             'fecha_solicitud' : forms.DateInput(attrs={'type':'date', 'class': 'form-control'}),
-            'descripcion_hechos' : forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),
-            'tipo_orientacion' : forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),
+            'descripcion_hechos' : forms.Textarea(attrs={'class':'form-control col-md-12', 'rows':'3'}),
+            'tipo_orientacion' : forms.Textarea(attrs={'class':'form-control col-md-12', 'rows':'3'}),
             'decision_adoptada' : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
             'observacion_adicional' : forms.Textarea(attrs={'class':'form-control', 'rows':'3'})
         }
 
 class DetalleSolicitudForm(forms.ModelForm):
     """ Clase para el formulario del detalle de la solicitud """
-    abogado = forms.ModelChoiceField(queryset=Usuario.objects.filter(groups='Abogados'))
+    #abogado = forms.ModelChoiceField(queryset=Usuario.objects.filter(groups='Abogados'))
     class Meta:
         model = DetalleSolicitud
-        fields = 'abogado', 'solicitud', 'observación', 'estado'
+        fields = 'abogado', 'solicitud', 'observacion', 'estado'
         widgets = {
             'abogado': forms.Select(attrs={'class':'form-select'}),
             'observacion': forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),
