@@ -20,7 +20,6 @@ class SolicitudCreateView(CreateView):
 
     def get(self, request, pk):
         usuario = get_user_model().objects.get(id=pk)
-        #usuario = self.form_class(initial={'usuario': user})
 
         return render(request, self.template_name, {'usuario':usuario, 'form': self.form_class})
     
@@ -32,14 +31,6 @@ class SolicitudListView(ListView):
     paginate_by = 10
     template_name = 'demanda/listasolicitud.html'
 
-    # def get_queryset(self):
-    #     qr = Solicitud.objects.annotate(
-    #     cliente_id=F('usuario_id'),
-    #     fecha_solicitud=F('fecha_solicitud'),
-    #     decision_adoptada=F('decision_adoptada'),
-    #     abogado_id=F('detallesolicitud__abogado_id')
-    #     ).values('cliente_id', 'fecha_solicitud', 'decision_adoptada', 'abogado_id')
-    #     return qr
     
 class SolicitudView(DetailView):
     model = Solicitud
