@@ -43,6 +43,7 @@ class DetalleSolicitud(models.Model):
     abogado = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     solicitud = models.OneToOneField(Solicitud, on_delete=models.CASCADE, related_name='detalle')
     observacion = RichTextField()
+    estado = models.BooleanField('Estado de Solicitud', default=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
