@@ -1,5 +1,5 @@
 {% extends 'registration/menuadmin.html' %} 
-{% block titulo %}Listado de Solicitudes{% endblock %}
+{% block titulo %}Listado de Solicitudes Asignadas{% endblock %}
 {% load static %} 
 {% block dash %}
 
@@ -60,17 +60,15 @@
                             </tr>
                         </thead>
                         <tbody  class="text-center">
-                            {% for solicitud in object_list %}
-                                <tr>
-                                    <td>{{ solicitud.usuario.first_name }} {{ solicitud.usuario.last_name }}</td>
-                                    <td>{{ solicitud.fecha_solicitud }}</td>
-                                    <td>{% if solicitud.decision_adoptada %}Concedida{% else %}Denegada{% endif %}</td>
-                                    <td>{{ solicitud__detallesolicitud__abogado_id }}</td>
+                            {% for item in object_list %}
+                                <tr class="text-capitalize">
+                                    <td>{{ item.solicitud.usuario.first_name }} {{ item.solicitud.usuario.last_name }}</td>
+                                    <td>{{ item.solicitud.fecha_solicitud }}</td>
+                                    <td>{% if item.solicitud.decision_adoptada %}Concedida{% else %}Denegada{% endif %}</td>
+                                    <td>{{ item.abogado.first_name }} {{ item.abogado.last_name }}</td>
                                     <td>
-                                        <a href="#" title="Editar Usuario"><i class="fa-solid fa-user-pen text-info"></i></a> |
-                                        <a href="#" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a> |
-                                        <a href="#" title="Ver Procesos" class="text-secondary"><i class="fa-solid fa-chalkboard-user"></i></a> |
-                                        <a href="#" title="Desactivar Usuario" class="text-danger"><i class="fa-solid fa-user-slash"></i>></a>
+                                        <a href="#" title="Crear Expediente"><i class="fa-solid fa-box-archive"></i></a> |
+                                        <a href="#" title="Ver Solicitud" class="text-info"><i class="fa-solid fa-eye"></i></a>
                                     </td>
                                 </tr>
                             {% empty %}

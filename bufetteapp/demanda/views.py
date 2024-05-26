@@ -1,6 +1,5 @@
 from typing import Any
-from django.db.models.query import QuerySet
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View, CreateView, ListView, UpdateView, DetailView
 from .models import Solicitud, DetalleSolicitud, Expediente, Pruebas, Actuaciones
 from .forms import SolicitudForm, DetalleSolicitudForm, ExpedienteForm, PruebasForm, ActuacionesForm
@@ -24,12 +23,37 @@ class SolicitudCreateView(CreateView):
         return render(request, self.template_name, {'usuario':usuario, 'form': self.form_class})
     
     def get_success_url(self) -> str:
-        return reverse_lazy('listasolicitud')
+        return reverse_lazy('solicitud_listar')
 
-class SolicitudListView(ListView):
+
+class SolicitudesDesatendidasListView(ListView):
+    """ Controlador para listar las solicitudes desatendidas """
     model = Solicitud
     paginate_by = 10
-    template_name = 'demanda/listasolicitud.html'
+    template_name = 'demanda/listasolicituddesatendidas.html'
+
+    def get_queryset(self):
+        qs = Solicitud.objects.filter(estado_solicitud = False)
+        return qs
+    
+class SolicitudActivacionView(View):
+    """ Controlador para activar una solicitud """
+    def get(self, request, pk):
+        solicitud = Solicitud.objects.get(id=pk)
+
+        if solicitud.estado_solicitud == False:
+            solicitud.estado_solicitud = True
+        
+        solicitud.save()
+
+        return redirect('asignar_abogado/'+f'{solicitud.id}')
+
+
+class SolicitudListView(ListView):
+    """ Controlador para listar las solicitudes atendidas """
+    model = DetalleSolicitud
+    paginate_by = 10
+    template_name = 'demanda/listasolicitudasignadas.html'
 
     
 class SolicitudView(DetailView):
@@ -44,7 +68,23 @@ class SolicitudEditView(UpdateView):
 class DetalleSolicitudCreate(CreateView):
     model = DetalleSolicitud
     form_class = DetalleSolicitudForm
-    # template_name =
+    template_name ='demanda/detallesolicitud.html'
+
+    def get(self, request, *args, **kwargs):
+        """ Método para capturar la solicitud """
+        uuid = request.GET.get(id=id)
+
+        try:
+            solicitud = Solicitud.objects.get(id=uuid)
+        except Solicitud.DoesNotExist:
+            solicitud = None
+
+        return render(request, self.template_name, {'solicitud': solicitud, 'form': self.form_class})
+    
+    def get_success_url(self) -> str:
+        """ Método para redireccionar a la lista de solicitudes """
+        return reverse_lazy('listasolicitudasignadas')
+    
 
 class DetalleEditView(UpdateView):
     model = DetalleSolicitud

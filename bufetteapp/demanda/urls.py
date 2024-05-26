@@ -1,9 +1,10 @@
 from django.urls import path 
-from .views import SolicitudCreateView, SolicitudListView, SolicitudView, SolicitudEditView
+from .views import SolicitudCreateView, SolicitudesDesatendidasListView, SolicitudActivacionView, SolicitudListView, SolicitudView, SolicitudEditView, DetalleSolicitudCreate
 
 urlpatterns = [
     path('solicitud_nueva/<int:pk>', SolicitudCreateView.as_view(), name= 'solicitud_nueva'),
-    path('lista_solicitudes/', SolicitudListView.as_view(), name= 'listasolicitud'),
-    # path(),
-    # path(),
+    path('solicitud_listar/', SolicitudesDesatendidasListView.as_view(), name= 'solicitud_listar'),
+    path('lista_solicitudes_asignadas/', SolicitudListView.as_view(), name= 'listasolicitudasignadas'),
+    path('activar_solicitud/<uuid:pk>', SolicitudActivacionView.as_view(), name='activar_solicitud'),
+    path('asignar_abogado/', DetalleSolicitudCreate.as_view(), name= 'asignar_abogado'),
 ]

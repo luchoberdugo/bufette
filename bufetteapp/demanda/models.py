@@ -24,6 +24,7 @@ class Solicitud(models.Model):
     tipo_orientacion = RichTextField(verbose_name='Orientación Brindada')
     decision_adoptada = models.BooleanField(default = True, verbose_name='Decisión Adoptada')
     observacion_adicional = RichTextField(verbose_name='Observaciones')
+    estado_solicitud = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
