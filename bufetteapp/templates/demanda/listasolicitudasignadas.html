@@ -1,0 +1,90 @@
+{% extends 'registration/menuadmin.html' %} 
+{% block titulo %}Listado de Solicitudes Asignadas{% endblock %}
+{% load static %} 
+{% block dash %}
+
+<section class="signin-section">
+    <div class="container-fluid">
+        <!-- ========== title-wrapper start ========== -->
+        <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+                <div class="col-md-9 d-flex">
+                    <div class="title">
+                        <h2>Listado de Solicitudes</h2>
+                    </div>
+                    <div class="col mx-4">
+                        <form action="{% url 'listausuario' %}" method="get">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar Solicitud" aria-label="Recipient's username" aria-describedby="button-addon2" name="query" value="{{ request.GET.query }}">
+                                <button class="btn btn-outline-dark" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>                                          
+                            </div>
+                        </form>                                          
+                    </div>
+                    <!-- <div class="col-2 mx-2">
+                        <a class="btn btn-outline-success" id="tooltip" href="{% url 'registro' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Agregar Usuario"><i class="fa-solid fa-user-plus"></i> Nuevo</a>
+                    </div> -->
+                </div>
+            <!-- end col -->
+                <div class="col-md-3">
+                    <div class="breadcrumb-wrapper">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="#0">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item"><a href="#0">Pages</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Settings
+                            </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- ========== title-wrapper end ========== -->
+        <div class="row">
+            <!-- Contenido de perfil de usuario -->
+            <section class="profile-info">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="text-center">
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Decision Adoptada</th>
+                                <th>Abogado</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody  class="text-center">
+                            {% for item in object_list %}
+                                <tr class="text-capitalize">
+                                    <td>{{ item.solicitud.usuario.first_name }} {{ item.solicitud.usuario.last_name }}</td>
+                                    <td>{{ item.solicitud.fecha_solicitud }}</td>
+                                    <td>{% if item.solicitud.decision_adoptada %}Concedida{% else %}Denegada{% endif %}</td>
+                                    <td>{{ item.abogado.first_name }} {{ item.abogado.last_name }}</td>
+                                    <td>
+                                        <a href="#" title="Crear Expediente"><i class="fa-solid fa-box-archive"></i></a> |
+                                        <a href="#" title="Ver Solicitud" class="text-info"><i class="fa-solid fa-eye"></i></a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="5">No se han registrado Solicitudes aún</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>                
+            </section>
+        </div>
+    </div>
+</section>
+
+<script>
+    const textorich = document.getElementById('id_descripcion_hechos')
+    textorich.classList.add('col-md-12')
+</script>
+
+{% endblock %}

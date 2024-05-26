@@ -25,5 +25,6 @@ urlpatterns = [
     path('', include('core.urls')),
     path('accounts/', include('django.contrib.auth.urls')),         # Con esta url configuramos el login
     path('users/', include('registration.urls')),
+    path('demanda/', include('demanda.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

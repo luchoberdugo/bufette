@@ -43,45 +43,31 @@
                     <div class="row">
                         {% csrf_token %}
                         <!-- Entrada Oculta de usuario-->
-                        <input type="hidden" name="usuario" value="{{ usuario.id }}">
+                        <input type="hidden" name="solicitud" value="{{ solicitud.id }}">
                         <div class="col-3">
-                            <div class="input-style-1">
-                              <label>Fecha de Solicitud</label>
-                              {{ form.fecha_solicitud }}
+                            <div class="select-style-1">
+                                <label>Abogado</label>
+                                <div class="select-position">
+                                    {{ form.abogado }}
+                                </div>
                             </div>
-                            <!-- end input -->
                         </div>
+
+                        <div class="col-6">
+                            <div class="input-style-1">
+                                <label for="descripcion_hechos">Descripcion de los Hechos</label>
+                                {{ form.observacion }}
+                            </div>
+                        </div>
+
                         <div class="col-3">
                             <div class="form-check form-switch toggle-switch mb-2 text-right">
                                 <span>Decisión Adoptada</span><br>
                                 <label for="decision_adoptada">Aceptar</label>
-                                {{ form.decision_adoptada }} 
+                                {{ form.estado }} 
                             </div>
-                        </div>
-                        <div class="col-6"></div>
-                        <div class="col-6">
-                            <div class="input-style-1">
-                                
-                                <label for="descripcion_hechos">Descripcion de los Hechos</label>
-                                {{ form.descripcion_hechos }}
-                            </div>
-                            
-                        </div>
-                        <div class="col-6">
-                            <div class="input-style-1">
-                                <label for="tipo_orientacion">Tipo de Orientacion</label>
-                                {{ form.tipo_orientacion }}
-                            </div>
-                            
                         </div>
 
-                        <div class="col-12">
-                            <div class="input-style-1">
-                                <label for="observacion_adicional">Observacion Adicional</label>
-                                {{ form.observacion_adicional }}
-                            </div>
-                            
-                        </div>
                         <div class="col-12">
                             <div class="button-group d-flex justify-content-center flex-wrap">
                                 <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">

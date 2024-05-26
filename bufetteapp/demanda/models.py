@@ -24,6 +24,7 @@ class Solicitud(models.Model):
     tipo_orientacion = RichTextField(verbose_name='Orientación Brindada')
     decision_adoptada = models.BooleanField(default = True, verbose_name='Decisión Adoptada')
     observacion_adicional = RichTextField(verbose_name='Observaciones')
+    estado_solicitud = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -43,6 +44,7 @@ class DetalleSolicitud(models.Model):
     abogado = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     solicitud = models.OneToOneField(Solicitud, on_delete=models.CASCADE, related_name='detalle')
     observacion = RichTextField()
+    estado = models.BooleanField('Estado de Solicitud', default=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
