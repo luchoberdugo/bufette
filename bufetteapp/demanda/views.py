@@ -51,8 +51,6 @@ class SolicitudActivacionView(View):
         return redirect('asignar_abogado', pk=solicitud.id)
 
 
-
-
 class SolicitudListView(ListView):
     """ Controlador para listar las solicitudes atendidas """
     model = DetalleSolicitud
@@ -98,6 +96,7 @@ class ExpedienteCreateView(CreateView):
     model = Expediente
     form_class = ExpedienteForm
     template_name = 'demanda/expediente.html'
+    success_url = reverse_lazy('expediente_listar')
 
     def get(self, request, pk):
         """ Método para capturar la solicitud """
@@ -107,3 +106,10 @@ class ExpedienteCreateView(CreateView):
             solicitud = None
 
         return render(request, self.template_name, {'form': self.form_class, 'solicitud': solicitud})
+    
+
+class ExpedienteListView(ListView):
+    """ Clase para listar expedientes de la solicitud """
+    model = Expediente
+    paginate_by = 10
+    template_name = 'demanda/listaexpedientes.html'

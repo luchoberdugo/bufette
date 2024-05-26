@@ -1,5 +1,5 @@
 {% extends 'registration/menuadmin.html' %} 
-{% block titulo %}Crear Solicitud{% endblock %}
+{% block titulo %}Crear Expediente{% endblock %}
 {% load static %} 
 {% block dash %}
 
@@ -7,10 +7,10 @@
     <div class="container-fluid">
         <!-- ========== title-wrapper start ========== -->
         <div class="title-wrapper pt-30">
-        <div class="row align-items-center">
+        <div class="row align-items-center">    
             <div class="col-md-6">
             <div class="title">
-                <h2>Crear Solicitud</h2>
+                <h2>Crear Expediente</h2>
             </div>
             </div>
             <!-- end col -->
@@ -43,31 +43,46 @@
                     <div class="row">
                         {% csrf_token %}
                         <!-- Entrada Oculta de usuario-->
-                        <input type="hidden" name="solicitud" value="{{ solicitud.id }}">
-                        <div class="col-3">
+                        <div class="col-md-6">
+                            <div class="input-style-1">
+                                <label for="solicitud">Solicitud ID:</label>
+                                <input type="text" class="form-control-plaintext" readonly name="solicitud" value="{{ solicitud.id }}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-style-1">
+                                <label for="">Fecha Radicado</label>
+                                {{ form.fecha_radicado }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-style-2">
+                                <label for="">Hora Radicado</label>
+                                {{ form.hora_radicado }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-style-1">
+                                <label for="radicado">Radicado:</label>
+                                {{ form.radicado }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
                             <div class="select-style-1">
-                                <label>Abogado</label>
+                                <label for="tipo_documento">Despacho</label>
                                 <div class="select-position">
-                                    {{ form.abogado }}
+                                    {{ form.despacho }}
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-6">
+                        <div class="col-md-4">
                             <div class="input-style-1">
-                                <label for="descripcion_hechos">Descripcion de los Hechos</label>
-                                {{ form.observacion }}
-                            </div>
+                                <label for="archivo">Archivo</label>
+                                {{ form.archivo }}
+                            </div>                              
                         </div>
-
-                        <div class="col-3">
-                            <div class="form-check form-switch toggle-switch mb-2 text-right">
-                                <span>Decisión Adoptada</span><br>
-                                <label for="decision_adoptada">Aceptar</label>
-                                {{ form.estado }} 
-                            </div>
-                        </div>
-
+                        
                         <div class="col-12">
                             <div class="button-group d-flex justify-content-center flex-wrap">
                                 <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">

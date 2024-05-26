@@ -7,19 +7,26 @@ from ckeditor.fields import RichTextField
 from registration.models import Usuario
 # Mas adelante importamos el de despacho
 from despachos.models import Despacho
+from dane.models import Departamento, Ciudad
 
 # Función para subir archivos:
 def subir_archivo(instance, nombre_archivo):
-    return "documentos/solicitudes/{expediente}/{id}/{filename}".format( id = instance.pk, expediente= instance.expediente, filename = nombre_archivo)
+    return "documentos/solicitudes/expediente/{id}/{filename}".format( id = instance.pk, filename = nombre_archivo)
+
+def subir_pruebas(instance, nombre_archivo):
+    return "documentos/solicitudes/expediente/{id}/pruebas/{filename}".format( id = instance.expediente, filename = nombre_archivo)
+
 
 def subir_acto(instance, nombre_archivo):
-    return "documentos/expedientes/{id}/{filename}".format( id = instance.pk,  filename = nombre_archivo)
+    return "documentos/solicitudes/expediente/{id}/actuaciones/{filename}".format( id = instance.expediente, filename = nombre_archivo)
 
 # Create your models here.
 class Solicitud(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) # 05e9a559-6d59-4656-96c3-3c1db236eea8
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name='Usuario demandante o acusado')
     fecha_solicitud = models.DateField(verbose_name="Fecha de solicitud")
+    departamento = models.ForeignKey(Departamento, on_delete=models.SET_NULL, verbose_name='Departamento de los hechos', null=True)
+    ciudad = models.ForeignKey(Ciudad, on_delete=models.SET_NULL, verbose_name='Ciudad de los hechos', null=True)
     descripcion_hechos = RichTextField(verbose_name='Descripción de los Hechos')
     tipo_orientacion = RichTextField(verbose_name='Orientación Brindada')
     decision_adoptada = models.BooleanField(default = True, verbose_name='Decisión Adoptada')
@@ -62,7 +69,7 @@ class Expediente(models.Model):
     hora_radicado = models.TimeField(verbose_name="Hora de radicado")
     solicitud = models.ForeignKey(Solicitud, on_delete=models.CASCADE)
     despacho = models.OneToOneField(Despacho, on_delete=models.CASCADE)
-    archivo = models.FileField(upload_to=subir_acto, null=True, blank=True)
+    archivo = models.FileField(upload_to=subir_archivo, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -70,7 +77,7 @@ class Expediente(models.Model):
         verbose_name_plural = 'Expedientes'
 
     def __str__(self):
-        return self.radicado
+        return f'{self.radicado}'
 
 
 class Pruebas(models.Model):
@@ -78,7 +85,7 @@ class Pruebas(models.Model):
     expediente = models.ForeignKey(Expediente, on_delete=models.CASCADE)
     nombre_prueba = models.CharField('Nombre de prueba', max_length=100)
     descripcion = RichTextField()
-    archivo = models.FileField(upload_to=subir_archivo, null=True, blank=True)
+    archivo = models.FileField(upload_to=subir_pruebas, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -93,6 +100,7 @@ class Actuaciones(models.Model):
     """ Modelo para registrar las actuaciones realizadas por el personal del Despacho """
     expediente = models.ForeignKey(Expediente, on_delete=models.PROTECT)  # PROTECT impide borrar un expediente mientras tenga una actuacion
     nota_seguimiento = RichTextField(verbose_name="Observación")
+    archivo = models.FileField(upload_to=subir_acto, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

@@ -6,9 +6,11 @@ class SolicitudForm(forms.ModelForm):
     """ Clase para el formulario de la solicitud """
     class Meta:
         model = Solicitud
-        fields = 'usuario', 'fecha_solicitud', 'descripcion_hechos', 'tipo_orientacion', 'decision_adoptada', 'observacion_adicional', 'estado_solicitud'     
+        fields = 'usuario', 'fecha_solicitud', 'departamento', 'ciudad', 'descripcion_hechos', 'tipo_orientacion', 'decision_adoptada', 'observacion_adicional', 'estado_solicitud'     
         widgets = {
             'fecha_solicitud' : forms.DateInput(attrs={'type':'date', 'class': 'form-control'}),
+            'departamento' : forms.Select(attrs={'class':'form-select'}),
+            'ciudad' : forms.Select(attrs={'class':'form-select'}),
             'descripcion_hechos' : forms.Textarea(attrs={'class':'form-control col-md-12', 'rows':'3'}),
             'tipo_orientacion' : forms.Textarea(attrs={'class':'form-control col-md-12', 'rows':'3'}),
             'decision_adoptada' : forms.CheckboxInput(attrs={'class': 'form-check-input'}),
@@ -35,7 +37,7 @@ class ExpedienteForm(forms.ModelForm):
         model = Expediente
         fields = 'radicado', 'fecha_radicado', 'hora_radicado', 'solicitud', 'despacho', 'archivo' 
         widgets = {
-            'radicado': forms.TextInput(attrs={'class': ''}),
+            'radicado': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha_radicado': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'hora_radicado': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
             'despacho': forms.Select(attrs={'class': 'form-select'}),

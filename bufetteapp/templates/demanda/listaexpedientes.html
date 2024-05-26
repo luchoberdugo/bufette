@@ -10,7 +10,7 @@
             <div class="row align-items-center">
                 <div class="col-md-9 d-flex">
                     <div class="title">
-                        <h2>Listado de Solicitudes</h2>
+                        <h2>Listado de Expedientes</h2>
                     </div>
                     <div class="col mx-4">
                         <form action="{% url 'listausuario' %}" method="get">
@@ -53,7 +53,7 @@
                         <thead class="text-center">
                             <tr>
                                 <th>Cliente</th>
-                                <th>Fecha</th>
+                                <th>Fecha y Hora Radicado</th>
                                 <th>Decision Adoptada</th>
                                 <th>Abogado</th>
                                 <th>Opciones</th>
@@ -63,7 +63,7 @@
                             {% for item in object_list %}
                                 <tr class="text-capitalize">
                                     <td>{{ item.solicitud.usuario.first_name }} {{ item.solicitud.usuario.last_name }}</td>
-                                    <td>{{ item.solicitud.fecha_solicitud }}</td>
+                                    <td>{{ item.fecha_radicado }} {{ item.hora_radicado }}</td>
                                     <td>{% if item.solicitud.decision_adoptada %}Concedida{% else %}Denegada{% endif %}</td>
                                     <td>{{ item.abogado.first_name }} {{ item.abogado.last_name }}</td>
                                     <td>
