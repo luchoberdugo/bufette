@@ -6,5 +6,5 @@ urlpatterns = [
     path('solicitud_listar/', SolicitudesDesatendidasListView.as_view(), name= 'solicitud_listar'),
     path('lista_solicitudes_asignadas/', SolicitudListView.as_view(), name= 'listasolicitudasignadas'),
     path('activar_solicitud/<uuid:pk>', SolicitudActivacionView.as_view(), name='activar_solicitud'),
-    path('asignar_abogado/', DetalleSolicitudCreate.as_view(), name= 'asignar_abogado'),
+    path('asignar_abogado/<uuid:pk>', DetalleSolicitudCreate.as_view(), name= 'asignar_abogado'),
 ]

@@ -1,0 +1,94 @@
+{% extends 'registration/menuadmin.html' %} 
+{% block titulo %}Crear Solicitud{% endblock %}
+{% load static %} 
+{% block dash %}
+
+<section class="signin-section">
+    <div class="container-fluid">
+        <!-- ========== title-wrapper start ========== -->
+        <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+            <div class="title">
+                <h2>Crear Solicitud</h2>
+            </div>
+            </div>
+            <!-- end col -->
+            <div class="col-md-6">
+            <div class="breadcrumb-wrapper">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'dashboard' %}">Solicitudes</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'listausuario' %}">Usuarios</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Crear Solicitud
+                    </li>
+                </ol>
+                </nav>
+            </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+        </div>
+        <!-- ========== title-wrapper end ========== -->
+        <div class="row">
+            <!-- Contenido de perfil de usuario -->
+            <section class="profile-info signup-wrapper">
+                <form method="post">
+                    <div class="row">
+                        {% csrf_token %}
+                        <!-- Entrada Oculta de usuario-->
+                        <input type="hidden" name="solicitud" value="{{ solicitud.id }}">
+                        <div class="col-3">
+                            <div class="select-style-1">
+                                <label>Abogado</label>
+                                <div class="select-position">
+                                    {{ form.abogado }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="input-style-1">
+                                <label for="descripcion_hechos">Descripcion de los Hechos</label>
+                                {{ form.observacion }}
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="form-check form-switch toggle-switch mb-2 text-right">
+                                <span>Decisión Adoptada</span><br>
+                                <label for="decision_adoptada">Aceptar</label>
+                                {{ form.estado }} 
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="button-group d-flex justify-content-center flex-wrap">
+                                <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">
+                                    Limpiar Formulario
+                                </button>
+                                <button type="submit" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
+                                    Crear Solicitud
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</section>
+
+<script>
+    const textorich = document.getElementById('id_descripcion_hechos');
+    textorich.classList.add('col-md-12');
+    console.log(textorich);
+</script>
+
+{% endblock %}

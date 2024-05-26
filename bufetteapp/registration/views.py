@@ -62,10 +62,7 @@ class AddDetailUserView(CreateView):
 
     def get_success_url(self) -> str:
         """ Redirige al dashboard una vez que se completa el formulario """
-        if self.usuario.group.first.name == 'Abogados':
-            return reverse_lazy('tarjeta_profesional')+  f'?email={self.email}'
-        else:
-            return reverse_lazy('listausuario') + '?completado'
+        return reverse_lazy('listausuario')
     
 
 class AddIdProfessionalView(CreateView):
@@ -119,8 +116,7 @@ class UserEditView(UpdateView):
 
     def get_success_url(self) -> str:
         """ Redirige al dashboard una vez que se completa el formulario """  
-        return reverse_lazy('listausuario') + '?completado'
-    
+        return reverse_lazy('listausuario')
 
 class UserActivateOrDeactivateView(View):
     

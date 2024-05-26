@@ -41,12 +41,16 @@ class SolicitudActivacionView(View):
     def get(self, request, pk):
         solicitud = Solicitud.objects.get(id=pk)
 
-        if solicitud.estado_solicitud == False:
+        if solicitud.estado_solicitud:
+            solicitud.estado_solicitud = True
+        else:
             solicitud.estado_solicitud = True
         
         solicitud.save()
 
-        return redirect('asignar_abogado/'+f'{solicitud.id}')
+        return redirect('asignar_abogado', pk=solicitud.id)
+
+
 
 
 class SolicitudListView(ListView):
@@ -70,12 +74,10 @@ class DetalleSolicitudCreate(CreateView):
     form_class = DetalleSolicitudForm
     template_name ='demanda/detallesolicitud.html'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, pk):
         """ Método para capturar la solicitud """
-        uuid = request.GET.get(id=id)
-
         try:
-            solicitud = Solicitud.objects.get(id=uuid)
+            solicitud = Solicitud.objects.get(id=pk)
         except Solicitud.DoesNotExist:
             solicitud = None
 
@@ -92,6 +94,16 @@ class DetalleEditView(UpdateView):
     # template_name
 
 class ExpedienteCreateView(CreateView):
+    """ Clase para adicionar expediente a la solicitud """
     model = Expediente
     form_class = ExpedienteForm
-    # template_name =
+    template_name = 'demanda/expediente.html'
+
+    def get(self, request, pk):
+        """ Método para capturar la solicitud """
+        try:
+            solicitud = Solicitud.objects.get(id=pk)
+        except Solicitud.DoesNotExist:
+            solicitud = None
+
+        return render(request, self.template_name, {'form': self.form_class, 'solicitud': solicitud})
