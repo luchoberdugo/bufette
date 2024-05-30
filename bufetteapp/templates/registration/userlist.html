@@ -72,8 +72,12 @@
                                         <a href="{% url 'editausuario' pk=user.id %}" title="Editar Usuario"><i class="fa-solid fa-user-pen text-info"></i></a> |
                                         {% if user.groups.first.name == 'Clientes' %}
                                             <a href="{% url 'solicitud_nueva' pk=user.id %}" title="Crear Solicitud"><i class="fa-regular fa-folder-open"></i></a> |
+                                            <a href="{% url 'usuario_perfil' user.username %}" title="Ver Perfil" class="text-secondary"><i class="fa-solid fa-eye"></i></a> |
                                         {% endif %}
-                                        <a href="#" title="Ver Procesos" class="text-secondary"><i class="fa-solid fa-chalkboard-user"></i></a> |
+                                        {% if user.groups.first.name == 'Abogados' %}
+                                            <a href="{% url 'tarjeta_profesional' pk=user.id %}" title="Adicionar Tarjeta Profesional"><i class="fa-regular fa-id-card"></i></a> |
+                                            <a href="{% url 'usuario_perfil' user.username %}" title="Ver Perfil" class="text-secondary"><i class="fa-solid fa-eye"></i></a> |
+                                        {% endif %}
                                         <a href="{% url 'editaestado' pk=user.id %}" title="Desactivar Usuario" class="text-danger"><i class="fa-solid fa-user-slash"></i>></a>
                                     </td>
                                 {% else %}
@@ -114,3 +118,7 @@
     </section>
 
 {% endblock %}
+
+<a href="" class="main-btn secondary-btn btn-hover w-30 text-center mx-2">
+    Tarjeta Profesional
+  </a>

@@ -41,15 +41,22 @@
             <div class="card mb-3">
                 <div class="row g-0">
                   <div class="col-md-4 text-center mt-3">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdJIHm0z37vL_H2CeK3fSjgmgTcmQwK8cj5vp7KzFD1wcYjRDo1iq2jb1gRMu6grtKApU&usqp=CAU" class="img-fluid rounded-start mt-5" alt="usuario">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdJIHm0z37vL_H2CeK3fSjgmgTcmQwK8cj5vp7KzFD1wcYjRDo1iq2jb1gRMu6grtKApU&usqp=CAU" class="img-fluid rounded-start mt-5" alt="usuario">
+                        </div>
+                        <div class="col-md-12">
+                            <a href="/users/detalle_usuario/?email={{usuario.email}}"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                        </div>
+                    </div>
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
-                      <h4 class="card-title">{{ request.user.first_name }} {{ request.user.last_name }}</h4>
+                      <h4 class="card-title">{{ usuario.first_name }} {{ usuario.last_name }}</h4>
                       <h5 class="card-title text-success row">
-                        <small class="col-md-4"><i class="fa-solid fa-user-tag"></i> Perfil de usuario:</small> <span class="col-md-8">{{ request.user.groups.first.name }}</span>
-                        {% if request.user.groups.first.name == 'Abogados' %}
-                            <br><small class="col-md-4"><i class="fa-regular fa-id-card"></i> Tarjeta Profesional:</small><span class="col-md-8">{{ tarjeta_profesional.numero_tarjeta }}</span>
+                        <small class="col-md-4"><i class="fa-solid fa-user-tag"></i> Perfil de usuario:</small> <span class="col-md-8">{{ usuario.groups.first.name }}</span>
+                        {% if usuario.groups.first.name == 'Abogados' %}
+                        <small class="col-md-4"><i class="fa-regular fa-id-card"></i> Tarjeta Profesional:</small><span class="col-md-8">{{ tarjetaus.numero_tarjeta }}</span>
                         {% endif %}
                     </h5>
                       <div class="row">
@@ -65,14 +72,15 @@
                             <p class="card-text">Estado Civil:</p>
                             <p class="card-text">Etnia:</p>
                             <p class="card-text">Tipo de Vulnerabilidad:</p>
-                            <p class="card-text">Teléfonos:</p>
+                            <p class="card-text">Teléfonos: <a href="{% url 'telefono_usuario' usuario.id %}"><i class="fa-solid fa-phone"></i> +</a></p>
                         </div>
                         <div class="col-md-8">
-                            {% for item in detalle %}
-                                <p class="card-text">{{ request.user.email}}</p>
-                                <p class="card-text">{{ request.user.date_joined}}</p>
-                                <p class="card-text">{{ request.user.nacionalidad}}</p>
-                                <p class="card-text">{{ item.tipo_documento }} - {{ request.user.numero_identificacion}}</p>
+                            {% for item in detalleus %}
+                            {% if forloop.first %} <!-- Con esta condición evitamos desbordamentos en el loop -->
+                                <p class="card-text">{{ usuario.email}}</p>
+                                <p class="card-text">{{ item.usuario.date_joined}}</p>
+                                <p class="card-text">{{ item.usuario.nacionalidad}}</p>
+                                <p class="card-text">{{ item.tipo_documento }} - {{ item.usuario.numero_identificacion}}</p>
                                 <p class="card-text">{{ item.fecha_expedicion }}</p>
                                 <p class="card-text">{{ item.fecha_nacimiento }}</p>
                                 <p class="card-text">{{ item.genero }}</p>
@@ -81,16 +89,17 @@
                                 <p class="card-text">{{ item.vulnerable }}</p>
                                 <p class="card-text row">
                                     {% for telefono in telefonos %}
-                                        <span class="col-md-12">{{ telefono.tipo_telefono }}: {{ telefono.numero }} <br>
+                                        <span class="col-md-12">{{ telefono.tipo_telefono }}: {{ telefono.numero_tel }} <br>
                                     {% empty %}
                                         <span class="col-md-12">No se han registrado teléfonos para el usuario</span>
                                     {% endfor %}
                                 </p>
+                            {% endif %}
                             {% endfor %}
                         </div>
                       </div>
                       <hr>
-                      <p class="card-text"><small class="text-body-secondary">Último Inicio de Sesión: {{ request.user.last_login }}</small></p>
+                      <p class="card-text"><small class="text-body-secondary">Último Inicio de Sesión: {% if item.usuario.last_login == None %}Sin Registro{% else %}{{ item.usuario.last_login }}{% endif %}</small></p>
                     </div>
                   </div>
                 </div>

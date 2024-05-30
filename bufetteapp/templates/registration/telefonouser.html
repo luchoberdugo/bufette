@@ -11,7 +11,7 @@
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="title">
-                    <h2>Tarjeta Profesional de Abogado</h2>
+                    <h2>Telefonos de {{ usuario.first_name }} {{ usuario.last_name }}</h2>
                     </div>
                 </div>
             <!-- end col -->
@@ -42,8 +42,8 @@
                         <article class="col-12 mb-2">
                             <div class="row">
                                 <div class="col-4">
-                                    <h5>{{ abogado.first_name }} {{ abogado.last_name }}</h5>
-                                    <h5>{{ abogado.numero_identificacion }}</h5>
+                                    <h5>{{ usuario.first_name }} {{ usuario.last_name }}</h5>
+                                    <h5>{{ usuario.numero_identificacion }}</h5>
                                 </div>
                                 <div class="col-4">
                                     <h5>{{ usuario.email }}</h5>
@@ -62,41 +62,38 @@
                         {% csrf_token %}
                         <div class="row">
                             <!-- Entrada Oculta de usuario-->
-                            <input type="hidden" name="abogado" value="{{ abogado.id }}">
+                            <input type="hidden" name="usuario" value="{{ usuario.id }}">
+
                             <div class="col-3">
-                                <div class="form-check form-switch toggle-switch mt-5">
-                                  <label for="tipo_documento">¿Es Tarjeta Provisional?</label>
-                                      {{ form.tarjeta_provisional }}
+                                {% for tel in telefonos %}
+                                    {{ tel.tipo_telefono }}: {{ tel.numero }} <br>
+                                {% empty %}
+                                    <span>No hay números registrados aún</span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-3">
+                                <div class="select-style-1">
+                                    <label for="">Tipo de Teléfono</label>
+                                    <div class="select-position">{{ form.tipo_telefono }}</div>
                                 </div>
                             </div>
 
                             <div class="col-3">
-                                <div class="form-check form-switch toggle-switch mt-5">
-                                  <label for="tipo_documento">¿Es Tarjeta Profesional?</label>
-                                      {{ form.tarjeta_profesional }}
-                                </div>
-                            </div>
-                            <div class="col-3">
                                 <div class="input-style-1">
-                                  <label>Número de Tarjeta</label>
-                                  {{ form.numero_tarjeta }}
+                                  <label for="">Número de Telefono</label>
+                                  {{ form.numero_tel }}
                                 </div>
                                 <!-- end input -->
                             </div>
-                            <div class="col-3">
-                                <div class="input-style-1">
-                                  <label for="">Fecha de Expedición Documento</label>
-                                  {{ form.fecha_expedicion }}
-                                </div>
-                                <!-- end input -->
-                            </div>
+                            <div class="col-3"></div>
                             <div class="col-12">
                                 <div class="button-group d-flex justify-content-center flex-wrap">
                                     <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">
                                         Limpiar Formulario
                                     </button>
                                     <button type="submit" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
-                                        Adicionar Tarjeta
+                                        Adicionar Teléfono
                                     </button>
                                 </div>
                             </div>

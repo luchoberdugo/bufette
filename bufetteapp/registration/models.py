@@ -103,7 +103,7 @@ class DetalleUsuario(models.Model):
     
 class TarjetaProfesional(models.Model):
     """ Clase para registrar a los profesionales del sistema"""
-    abogado = models.ForeignKey(Usuario, on_delete=models.CASCADE, verbose_name="Abogado")
+    abogado = models.OneToOneField(Usuario, on_delete=models.CASCADE, verbose_name="Abogado")
     tarjeta_profesional = models.BooleanField('Cuenta con Tarjeta Profesional', null=True, blank=True)
     tarjeta_provisional = models.BooleanField('Es Tarjeta Provisional', null=True, blank=True)
     numero_tarjeta = models.PositiveBigIntegerField("Número de Tarjeta", max_length=8)
