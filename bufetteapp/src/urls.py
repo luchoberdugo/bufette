@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
+    path('dane/', include('dane.urls')),
     path('accounts/', include('django.contrib.auth.urls')),         # Con esta url configuramos el login
     path('users/', include('registration.urls')),
     path('demanda/', include('demanda.urls')),

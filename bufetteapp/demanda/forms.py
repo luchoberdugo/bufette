@@ -9,7 +9,7 @@ class SolicitudForm(forms.ModelForm):
         fields = 'usuario', 'fecha_solicitud', 'departamento', 'ciudad', 'descripcion_hechos', 'tipo_orientacion', 'decision_adoptada', 'observacion_adicional', 'estado_solicitud'     
         widgets = {
             'fecha_solicitud' : forms.DateInput(attrs={'type':'date', 'class': 'form-control'}),
-            'departamento' : forms.Select(attrs={'class':'form-select'}),
+            'departamento' : forms.Select(attrs={'class':'form-select', 'onchange':'filterMunicipalities()'}),
             'ciudad' : forms.Select(attrs={'class':'form-select'}),
             'descripcion_hechos' : forms.Textarea(attrs={'class':'form-control col-md-12', 'rows':'3'}),
             'tipo_orientacion' : forms.Textarea(attrs={'class':'form-control col-md-12', 'rows':'3'}),
@@ -59,7 +59,8 @@ class ActuacionesForm(forms.ModelForm):
     """ Clase para el formulario de Actuaciones """
     class Meta:
         model = Actuaciones
-        fields = ('expediente','nota_seguimiento')
+        fields = ('expediente','nota_seguimiento', 'archivo')
         widgets = {
-            'nota_seguimiento': forms.Textarea(attrs={'class':'form-control', 'rows':'3'})
+            'nota_seguimiento': forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),
+            'archivo': forms.FileInput(attrs={'class': 'form-control', 'type': 'file'})
         }
