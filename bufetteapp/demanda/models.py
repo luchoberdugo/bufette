@@ -84,7 +84,7 @@ class Pruebas(models.Model):
     """ Modelo para cargar los documentos que se usan como soporte para probar inocencia o culpabilidad """
     expediente = models.ForeignKey(Expediente, on_delete=models.CASCADE)
     nombre_prueba = models.CharField('Nombre de prueba', max_length=100)
-    descripcion = RichTextField()
+    descripcion = RichTextField(null=True, blank=True)
     archivo = models.FileField(upload_to=subir_pruebas, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)

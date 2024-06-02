@@ -1,0 +1,185 @@
+{% extends 'registration/menuadmin.html' %} 
+{% block titulo %}Informe de Expediente{% endblock %}
+{% load static %} 
+{% block dash %}
+
+<section class="signin-section">
+    <div class="container-fluid">
+        <!-- ========== title-wrapper start ========== -->
+        <div class="title-wrapper pt-30">
+        <div class="row align-items-center">    
+            <div class="col-md-6">
+            <div class="title">
+                <h2>Informe de Expediente</h2>
+            </div>
+            </div>
+            <!-- end col -->
+            <div class="col-md-6">
+            <div class="breadcrumb-wrapper">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'listasolicitudasignadas' %}">Demandas</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'expediente_listar' %}">Expedientes</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        informe de Expediente
+                    </li>
+                </ol>
+                </nav>
+            </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+        </div>
+        <!-- ========== title-wrapper end ========== -->
+        <div class="row">
+            <!-- Contenido de perfil de usuario -->
+            <section class="profile-info signup-wrapper">
+                <div class="row">
+
+                    <section class="container-fluid">
+                        <div class="card mt-2">
+                            <div class="card-header">
+                                Detalle de Solicitud
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Solicitud #<span class="text-success">{{ expediente.solicitud.id  }}</span><br>
+                                                       Fecha: <span class="text-success">{{ expediente.solicitud.fecha_solicitud }}</span><br>
+                                                       Cliente: <span class="text-success">{{ expediente.solicitud.usuario.first_name }} {{ expediente.solicitud.usuario.last_name }}</span>
+                                </h5>
+                                <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="card-title"><span class="text-success">Descripcion de los Hechos</span></h5>
+                                    <blockquote class="card-text">{{ expediente.solicitud.descripcion_hechos|safe }}</blockquote>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="card-title"><span class="text-success">Tipo de Orientación:</span></h5>
+                                    <p class="card-text">{{ expediente.solicitud.tipo_orientacion|safe }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="card-title"><span class="text-success">Observación adicional:</span></h5>
+                                    <p class="card-text">{{ expediente.solicitud.observacion_adicional|safe }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="card-title"><span class="text-success">Abogado Asignado</span></h5>
+                                    <p class="card-text">
+                                        {% for deta in deta_solicitud %}
+                                            {{ deta.abogado.first_name }} {{ deta.abogado.last_name }}
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card mt-2">
+                            <div class="card-header">
+                                Expediente
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Expediente No. {{ expediente.radicado }}</h5>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <span class="text-success"><strong>Fecha y hora de Radicado</strong></span><br>
+                                        <span class="text-success"><strong>Despacho</strong></span><br>
+                                        <span class="text-success"><strong>Archivo:</strong></span>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <p class="card-text">{{ expediente.fecha_radicado }} - {{ expediente.hora_radicado|time }}</p>
+                                        <p class="card-text">{{ expediente.despacho }}</p>
+                                        <p class="card-text">{{ expediente.archivo }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-2">
+                            <div class="card-header">
+                                Pruebas
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Expediente No. {{ expediente.radicado }} || {{ expediente.fecha_radicado }} - {{ expediente.hora_radicado|time }}</h5>
+                                <div class="row">
+                                    <div class="table-sm">
+                                        <table class="table table-bordered table-hover table-striped table-sm">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>Nombre de Prueba</th>
+                                                    <th>Descrición</th>
+                                                    <th>Evidencia</th>
+                                                    <th>Fecha de Creación</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for prueba in prueba_exp %}
+                                                    <tr class="text-center">
+                                                        <td>{{ prueba.nombre_prueba }}</td>
+                                                        <td>{{ prueba.descripcion|safe }}</td>
+                                                        <td>
+                                                            {% if prueba.archivo %}
+                                                                <a href="{{ prueba.archivo.url }}" target="_blank" rel="noopener noreferrer">{{ prueba.archivo }}</a>
+                                                            {% else %}
+                                                                <a href="{% url 'addpruebas' expediente.id %}" target="_blank" rel="noopener noreferrer">Adicionar Pruebas</a>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{ prueba.created }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-2">
+                            <div class="card-header">
+                                Actuaciones
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Expediente No. {{ expediente.radicado }}</h5>
+                                <div class="row">
+                                    <div class="table-sm">
+                                        <table class="table table-bordered table-hover table-striped table-sm">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>Estrategia Jurídica</th>
+                                                    <th>Documento</th>
+                                                    <th>Fecha de Creación</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for acto in actos_exp %}
+                                                    <tr class="text-center">
+                                                        <td>{{ acto.nota_seguimiento|safe }}</td>
+                                                        <td>
+                                                            {% if acto.archivo %}
+                                                                <a href="{{ acto.archivo.url }}" target="_blank" rel="noopener noreferrer">{{ acto.archivo }}</a>
+                                                            {% else %}
+                                                                <a href="{% url 'addpruebas' expediente.id %}" target="_blank" rel="noopener noreferrer">Adicionar Pruebas</a>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{ acto.created }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+<script>
+
+</script>
+
+{% endblock %}

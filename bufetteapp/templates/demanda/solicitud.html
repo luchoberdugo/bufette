@@ -70,7 +70,8 @@
                             <div class="select-style-1">
                                 <label for="tipo_documento">Ciudad</label>
                                 <div class="select-position">
-                                    {{ form.ciudad }}
+                                    <!-- {{ form.ciudad }} -->
+                                    <select name="ciudad" class="form-select" required="" id="id_ciudad"></select>
                                 </div>
                             </div>
                         </div>
@@ -113,10 +114,35 @@
         </div>
     </div>
 </section>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    const textorich = document.getElementById('id_descripcion_hechos')
-    textorich.classList.add('col-md-12')
+    const deptoSelect = document.getElementById('id_departamento');
+    const citysSelect = document.getElementById('id_ciudad');
+
+    function filterMunicipalities() {
+    const selectedDepartmentId = $('#id_departamento').val();
+
+    $.ajax({
+        url: '/dane/ciudades/',
+        data: {
+            id: selectedDepartmentId
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+            const municipalityOptions = $('#id_ciudad');
+            municipalityOptions.empty();
+
+            for (const ciudad of data) {
+                municipalityOptions.append(
+                    $('<option>').val(ciudad.id).text(ciudad.name)
+                );
+            }
+        }
+    });
+}
+
+    
 </script>
 
 {% endblock %}

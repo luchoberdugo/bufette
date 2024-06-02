@@ -39,71 +39,119 @@
         <div class="row">
             <!-- Contenido de perfil de usuario -->
             <section class="profile-info signup-wrapper">
-                <form method="post">
-                    <div class="row">
-                        {% csrf_token %}
-                        <!-- Entrada Oculta de usuario-->
-                        <div class="col-md-6">
-                            <div class="input-style-1">
-                                <label for="solicitud">Solicitud ID:</label>
-                                <input type="text" class="form-control-plaintext" readonly name="solicitud" value="{{ solicitud.id }}">
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                              <button class="nav-link active" id="nav-expediente-tab" data-bs-toggle="tab" data-bs-target="#nav-expediente" type="button" role="tab" aria-controls="nav-expediente" aria-selected="true">Expediente</button>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="input-style-1">
-                                <label for="">Fecha Radicado</label>
-                                {{ form.fecha_radicado }}
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="input-style-2">
-                                <label for="">Hora Radicado</label>
-                                {{ form.hora_radicado }}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-style-1">
-                                <label for="radicado">Radicado:</label>
-                                {{ form.radicado }}
-                            </div>
-                        </div>
+                          </nav>
+                          <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-expediente" role="tabpanel" aria-labelledby="nav-expediente-tab" tabindex="0">
+                                <section class="container-fluid">
+                                    <div class="card mt-2">
+                                        <div class="card-header">
+                                          Detalle de Solicitud
+                                        </div>
+                                        <div class="card-body">
+                                          <h5 class="card-title">Solicitud #<span class="text-success">{{ solicitud.id  }}</span>  
+                                                                &nbsp;Fecha: <span class="text-success">{{ solicitud.fecha_solicitud }}</span>
+                                                                &nbsp;Cliente: <span class="text-success">{{ solicitud.usuario.first_name }} {{ solicitud.usuario.last_name }}</span>
+                                          </h5>
+                                          <div class="row">
+                                            <div class="col-md-6">
+                                                <h5 class="card-title"><span class="text-success">Descripcion de los Hechos</span></h5>
+                                                <blockquote class="card-text">{{ solicitud.descripcion_hechos|safe }}</blockquote>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="card-title"><span class="text-success">Tipo de Orientación:</span></h5>
+                                                <p class="card-text">{{ solicitud.tipo_orientacion|safe }}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="card-title"><span class="text-success">Observación adicional:</span></h5>
+                                                <p class="card-text">{{ solicitud.observacion_adicional|safe }}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="card-title"><span class="text-success">Abogado Asignado</span></h5>
+                                                <p class="card-text">
+                                                    {% for deta in deta_solicitud %}
+                                                        {{ deta.abogado.first_name }} {{ deta.abogado.last_name }}
+                                                    {% endfor %}
+                                                </p>
+                                            </div>
+                                          </div>
 
-                        <div class="col-md-4">
-                            <div class="select-style-1">
-                                <label for="tipo_documento">Despacho</label>
-                                <div class="select-position">
-                                    {{ form.despacho }}
-                                </div>
+                                        </div>
+                                      </div>
+                                    <form method="post">
+                                        <div class="row">
+                                            {% csrf_token %}
+                                            <!-- Entrada Oculta de usuario-->
+                                            <div class="col-md-4">
+                                                <div class="input-style-1">
+                                                    <label for="solicitud"><strong>Gestionado por:</strong> </label>
+                                                    <input type="hidden" class="form-control-plaintext" readonly name="solicitud" value="{{ solicitud.id }}">
+                                                    <span class="text-success"><strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-style-1">
+                                                    <label for="">Fecha Radicado</label>
+                                                    {{ exp_form.fecha_radicado }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-style-2">
+                                                    <label for="">Hora Radicado</label>
+                                                    {{ exp_form.hora_radicado }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-style-1">
+                                                    <label for="radicado">Radicado:</label>
+                                                    {{ exp_form.radicado }}
+                                                </div>
+                                            </div>
+                    
+                                            <div class="col-md-4">
+                                                <div class="select-style-1">
+                                                    <label for="tipo_documento">Despacho</label>
+                                                    <div class="select-position">
+                                                        {{ exp_form.despacho }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-style-1">
+                                                    <label for="archivo">Archivo</label>
+                                                    {{ exp_form.archivo }}
+                                                </div>                              
+                                            </div>
+                                            
+                                            <div class="col-12">
+                                                <div class="button-group d-flex justify-content-center flex-wrap">
+                                                    <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">
+                                                        Limpiar Formulario
+                                                    </button>
+                                                    <button type="submit" name="guarda_exp" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
+                                                        Guardar y agregar pruebas
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </section>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="input-style-1">
-                                <label for="archivo">Archivo</label>
-                                {{ form.archivo }}
-                            </div>                              
-                        </div>
-                        
-                        <div class="col-12">
-                            <div class="button-group d-flex justify-content-center flex-wrap">
-                                <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">
-                                    Limpiar Formulario
-                                </button>
-                                <button type="submit" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
-                                    Crear Solicitud
-                                </button>
-                            </div>
-                        </div>
+                          </div>
                     </div>
-                </form>
+                </div>
             </section>
         </div>
     </div>
 </section>
 
 <script>
-    const textorich = document.getElementById('id_descripcion_hechos');
-    textorich.classList.add('col-md-12');
-    console.log(textorich);
+
 </script>
 
 {% endblock %}

@@ -1,12 +1,12 @@
-from typing import Any
-from django.shortcuts import render, redirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, View, CreateView, ListView, UpdateView, DetailView
 from .models import Solicitud, DetalleSolicitud, Expediente, Pruebas, Actuaciones
 from .forms import SolicitudForm, DetalleSolicitudForm, ExpedienteForm, PruebasForm, ActuacionesForm
 
 from django.contrib.auth import get_user_model
 # Importamos paquete de resolución de urls:
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 # Importamos los elementos necesarios para que funcionen los querys:
 from django.db.models import F, Value, CharField, ExpressionWrapper
 
@@ -96,20 +96,96 @@ class ExpedienteCreateView(CreateView):
     model = Expediente
     form_class = ExpedienteForm
     template_name = 'demanda/expediente.html'
-    success_url = reverse_lazy('expediente_listar')
 
     def get(self, request, pk):
         """ Método para capturar la solicitud """
         try:
             solicitud = Solicitud.objects.get(id=pk)
+            deta_solicitud = DetalleSolicitud.objects.filter(solicitud = solicitud)
         except Solicitud.DoesNotExist:
             solicitud = None
+            deta_solicitud = None
 
-        return render(request, self.template_name, {'form': self.form_class, 'solicitud': solicitud})
-    
+        return render(request, self.template_name, {'exp_form': self.form_class,
+                                                    'solicitud': solicitud, 
+                                                    'deta_solicitud': deta_solicitud})
+    def get_success_url(self):
+        """ Método para redireccionar al guardar """
+        return reverse_lazy('expediente_listar', kwargs={'pk': self.kwargs['pk']})
 
 class ExpedienteListView(ListView):
     """ Clase para listar expedientes de la solicitud """
     model = Expediente
     paginate_by = 10
     template_name = 'demanda/listaexpedientes.html'
+
+
+class PruebasExpedienteView(TemplateView):
+    """ Clase para adicionar pruebas y actos a la """
+    template_name = 'demanda/pruebasactos.html'
+    form_class =  PruebasForm
+
+    def get(self, request, pk):
+        """ Método para capturar el expediente """
+        try:
+            expediente = Expediente.objects.get(id=pk)
+            solicitud = Solicitud.objects.filter(id= expediente.solicitud_id)
+            for sol in solicitud:
+                deta_solicitud = DetalleSolicitud.objects.filter(solicitud = sol.id)
+        except Expediente.DoesNotExist:
+            expediente = None
+            solicitud = None
+
+        return render(request,self.template_name, {'prueba_form': self.form_class,
+                                                   'actos_form': ActuacionesForm,
+                                                   'solicitud': solicitud,
+                                                   'expediente': expediente,
+                                                   'deta_solicitud': deta_solicitud})
+    
+    def post(self, request, *args, **kwargs):
+        """ Método para guardar los datos del formulario """
+        prueba_form = PruebasForm(data = request.POST)
+        actos_form = ActuacionesForm(data = request.POST)
+
+        if 'guarda_prueba' in request.POST:
+            if prueba_form.is_valid():
+                prueba = prueba_form.save(commit=False)
+                prueba.save()
+            else:
+                prueba_form.errors
+        
+        elif 'guarda_acto' in request.POST:
+            if actos_form.is_valid():
+                acto = actos_form.save(commit=False)
+                acto.save()
+            else:
+                actos_form.errors
+
+        return HttpResponseRedirect(reverse('addpruebas', kwargs={'pk': self.kwargs['pk']}))
+    
+
+class ExpedienteInformeView(TemplateView):
+    """ Clase para adicionar pruebas y actos a la """
+    template_name = 'demanda/expedienteinforme.html'
+
+    def get(self, request, pk):
+        """ Método para capturar el expediente """
+        try:
+            expediente = Expediente.objects.get(id=pk)
+            solicitud = Solicitud.objects.filter(id= expediente.solicitud_id)
+            for sol in solicitud:
+                deta_solicitud = DetalleSolicitud.objects.filter(solicitud = sol.id)
+            pruebas = Pruebas.objects.filter(expediente = expediente)
+            actos = Actuaciones.objects.filter(expediente = expediente)
+
+        except Expediente.DoesNotExist:
+            expediente = None
+            solicitud = None
+
+        return render(request,self.template_name, {'prueba_exp': pruebas,
+                                                   'actos_exp': actos,
+                                                   'solicitud': solicitud,
+                                                   'expediente': expediente,
+                                                   'deta_solicitud': deta_solicitud})
+
+

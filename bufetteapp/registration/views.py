@@ -47,6 +47,7 @@ class AddDetailUserView(CreateView):
     """ Clase para agregar datos en el detalle del usuario """
     template_name = 'registration/detalleuser.html'
     form_class = DetalleUserForm
+
     
     def get(self, request, *args, **kwargs):
         """ Con este método get vamos a capturar el id del usuario, 
@@ -63,7 +64,7 @@ class AddDetailUserView(CreateView):
 
     def get_success_url(self) -> str:
         """ Redirige al dashboard una vez que se completa el formulario """
-        return reverse_lazy('telefono_usuario')
+        return reverse_lazy('listausuario')
     
 
 class AddIdProfessionalView(CreateView):
