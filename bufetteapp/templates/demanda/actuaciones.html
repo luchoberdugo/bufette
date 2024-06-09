@@ -1,5 +1,5 @@
 {% extends 'registration/menuadmin.html' %} 
-{% block titulo %}Crear Expediente{% endblock %}
+{% block titulo %}Cargar Actuaciones y Documentos{% endblock %}
 {% load static %} 
 {% block dash %}
 
@@ -10,7 +10,7 @@
         <div class="row align-items-center">    
             <div class="col-md-6">
             <div class="title">
-                <h2>Crear Expediente</h2>
+                <h2>Cargar Actuaciones</h2>
             </div>
             </div>
             <!-- end col -->
@@ -43,33 +43,33 @@
                     <div class="col-md-12">
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                              <button class="nav-link active" id="nav-expediente-tab" data-bs-toggle="tab" data-bs-target="#nav-expediente" type="button" role="tab" aria-controls="nav-expediente" aria-selected="true">Expediente</button>
+                              <button class="nav-link" id="nav-actos-tab" data-bs-toggle="tab" data-bs-target="#nav-actos" type="button" role="tab" aria-controls="nav-actos" aria-selected="false">Actuaciones</button>
                             </div>
                           </nav>
                           <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-expediente" role="tabpanel" aria-labelledby="nav-expediente-tab" tabindex="0">
+                            <div class="tab-pane fade show active" id="nav-actos" role="tabpanel" aria-labelledby="nav-actos-tab" tabindex="0">
                                 <section class="container-fluid">
                                     <div class="card mt-2">
                                         <div class="card-header">
                                           Detalle de Solicitud
                                         </div>
                                         <div class="card-body">
-                                          <h5 class="card-title">Solicitud #<span class="text-success">{{ solicitud.id  }}</span>  
-                                                                &nbsp;Fecha: <span class="text-success">{{ solicitud.fecha_solicitud }}</span>
-                                                                &nbsp;Cliente: <span class="text-success">{{ solicitud.usuario.first_name }} {{ solicitud.usuario.last_name }}</span>
+                                          <h5 class="card-title">Solicitud #<span class="text-success">{{ expediente.solicitud.id  }}</span> <br> 
+                                                                Fecha: <span class="text-success">{{ expediente.solicitud.fecha_solicitud }}</span><br>
+                                                                Cliente: <span class="text-success">{{ expediente.solicitud.usuario.first_name }} {{ expediente.solicitud.usuario.last_name }}</span>
                                           </h5>
                                           <div class="row">
                                             <div class="col-md-6">
                                                 <h5 class="card-title"><span class="text-success">Descripcion de los Hechos</span></h5>
-                                                <blockquote class="card-text">{{ solicitud.descripcion_hechos|safe }}</blockquote>
+                                                <blockquote class="card-text">{{ expediente.solicitud.descripcion_hechos|safe }}</blockquote>
                                             </div>
                                             <div class="col-md-6">
                                                 <h5 class="card-title"><span class="text-success">Tipo de Orientación:</span></h5>
-                                                <p class="card-text">{{ solicitud.tipo_orientacion|safe }}</p>
+                                                <p class="card-text">{{ expediente.solicitud.tipo_orientacion|safe }}</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <h5 class="card-title"><span class="text-success">Observación adicional:</span></h5>
-                                                <p class="card-text">{{ solicitud.observacion_adicional|safe }}</p>
+                                                <p class="card-text">{{ expediente.solicitud.observacion_adicional|safe }}</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <h5 class="card-title"><span class="text-success">Abogado Asignado</span></h5>
@@ -83,49 +83,30 @@
 
                                         </div>
                                       </div>
-                                    <form method="post" enctype="multipart/form-data">
+                                    <form method="post"  enctype="multipart/form-data">
                                         <div class="row">
                                             {% csrf_token %}
                                             <!-- Entrada Oculta de usuario-->
+                                            <input type="hidden" name="expediente" value="{{ expediente.id }}">
                                             <div class="col-md-4">
                                                 <div class="input-style-1">
                                                     <label for="solicitud"><strong>Gestionado por:</strong> </label>
-                                                    <input type="hidden" class="form-control-plaintext" readonly name="solicitud" value="{{ solicitud.id }}">
+                                                    
                                                     <span class="text-success"><strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="input-style-1">
-                                                    <label for="">Fecha Radicado</label>
-                                                    {{ exp_form.fecha_radicado }}
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
+                                            
+                                            <div class="col-md-12">
                                                 <div class="input-style-2">
-                                                    <label for="">Hora Radicado</label>
-                                                    {{ exp_form.hora_radicado }}
+                                                    <label for="">Estrategia Jurídica</label>
+                                                    {{ actos_form.nota_seguimiento }}
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="input-style-1">
-                                                    <label for="radicado">Radicado:</label>
-                                                    {{ exp_form.radicado }}
+                                                    <label for="">Documento</label>
+                                                    {{ actos_form.archivo }}
                                                 </div>
-                                            </div>
-                    
-                                            <div class="col-md-4">
-                                                <div class="select-style-1">
-                                                    <label for="tipo_documento">Despacho</label>
-                                                    <div class="select-position">
-                                                        {{ exp_form.despacho }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="input-style-1">
-                                                    <label for="archivo">Archivo</label>
-                                                    {{ exp_form.archivo }}
-                                                </div>                              
                                             </div>
                                             
                                             <div class="col-12">
@@ -133,8 +114,8 @@
                                                     <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">
                                                         Limpiar Formulario
                                                     </button>
-                                                    <button type="submit" name="guarda_exp" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
-                                                        Guardar y agregar pruebas
+                                                    <button type="submit" name="guarda_acto" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
+                                                        Adicionar Actuación
                                                     </button>
                                                 </div>
                                             </div>
