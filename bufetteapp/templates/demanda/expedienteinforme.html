@@ -149,6 +149,7 @@
                                                     <th>Estrategia Jurídica</th>
                                                     <th>Documento</th>
                                                     <th>Fecha de Creación</th>
+                                                    <th>Opciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -159,10 +160,17 @@
                                                             {% if acto.archivo %}
                                                                 <a href="{{ acto.archivo.url }}" target="_blank" rel="noopener noreferrer">{{ acto.archivo }}</a>
                                                             {% else %}
-                                                                <a href="{% url 'addpruebas' expediente.id %}" target="_blank" rel="noopener noreferrer">Adicionar Pruebas</a>
+                                                                <a href="{% url 'addactuaciones' expediente.id %}" target="_blank" rel="noopener noreferrer">Adicionar Actuación</a>
                                                             {% endif %}
                                                         </td>
                                                         <td>{{ acto.created }}</td>
+                                                        <td>
+                                                            <a href="{% url 'addactuaciones' expediente.id %}"><i class="fa-regular fa-square-plus"></i></a> | 
+                                                        </td>
+                                                    </tr>
+                                                {% empty %}
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">No hay Actuaciones. <a href="{% url 'addactuaciones' expediente.id %}"><i class="fa-regular fa-square-plus"></i> Adicionar Actuaciones</a></td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>

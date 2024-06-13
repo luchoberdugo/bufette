@@ -5,25 +5,17 @@ from .models import Departamento, Ciudad
 
 # Create your views here.
 class FiltroCiudades(View):
+    """ Esta clase filtrará las ciudades al seleccionar un departamento en la 
+        solicitud, usamos ajax para crear la sensación de filtro dinámico
+    """
 
     def get(self, request):
-        # filtrado = {}
-        departamento_id = request.GET.get('departamento')
-        filtrado = []
+        departamento_id = request.GET.get('depto')
 
         if departamento_id:
-            ciudades = Ciudad.objects.filter(departamento_id = departamento_id)
+            ciudades  = Ciudad.objects.filter(departamento_id = departamento_id)
+            ciudades_filtradas = [{'id': ciudad.id, 'name': ciudad.name} for ciudad in ciudades]
 
-            for city in ciudades:
-                print(city.name)
-                filtrado_d = {
-                    'id': city.id,
-                    'nombre': city.name
-                }
-            if filtrado_d not in filtrado:
-                filtrado.append(filtrado_d)
-            filtrado = dict(filtrado)
-            print(filtrado)
-            return JsonResponse(filtrado)
+            return JsonResponse(ciudades_filtradas, safe=False)
         else:
-            return JsonResponse({'error': 'No se encontraron ciudades'})
+            return JsonResponse({'error': 'No se encontraron ciudades'}, safe=False)

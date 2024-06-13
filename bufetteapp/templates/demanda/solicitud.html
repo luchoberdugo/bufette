@@ -39,7 +39,7 @@
         <div class="row">
             <!-- Contenido de perfil de usuario -->
             <section class="profile-info signup-wrapper">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <div class="row">
                         {% csrf_token %}
                         <!-- Entrada Oculta de usuario-->
@@ -70,7 +70,7 @@
                             <div class="select-style-1">
                                 <label for="tipo_documento">Ciudad</label>
                                 <div class="select-position">
-                                    <!-- {{ form.ciudad }} -->
+                                    <!-- Generamos de manera dinamica las ciudades por departamento seleccionado: -->
                                     <select name="ciudad" class="form-select" required="" id="id_ciudad"></select>
                                 </div>
                             </div>
@@ -116,30 +116,48 @@
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    const deptoSelect = document.getElementById('id_departamento');
-    const citysSelect = document.getElementById('id_ciudad');
+    /*
+        Funcionalidad para filtrar las ciudades por departamento, 
+        Todo inicia desde este template se crea una funcion que se
+        encargue de realizar el proceso, los pasos son los siguientes:
+        Paso 1: Capturar el valor del identificador id_departamento
+        Paso 2: A través de ajax, pasamos un json con los datos de la 
+                url, el dato obtenido del selector. Nos aseguramos de obtener
+                los datos tipo json con la clave dataType. Ajax puede validar
+                la promesa usando sucsess, que a su vez utiliza una funcion tipo
+                response que se encarga de traer los datos generados en la petición
+                Nota: Debemos asegurarnos de incluir el cdn de jquery en este archivo está en la linea 117
+        Paso 3: Nos aseguramos de crear una variable para colocar los elementos del response
+                Esto es un elemento del dom que llevará los valores de un elemento <option> del elemento <select>
+        Paso 4: Capturamos el response (data) y recorremos el resultado generado para asignar
+                los valores del json en los correspondiente valores del elemento <option>
+        
+        Lo siguiente es crear una clase view en la app dane
+    */
 
     function filterMunicipalities() {
-    const selectedDepartmentId = $('#id_departamento').val();
+    const selectedDepartmentId = $('#id_departamento').val();           // Paso 1
 
     $.ajax({
-        url: '/dane/ciudades/',
+        url: '{% url "ciudades" %}',                                    // Paso 2
         data: {
-            id: selectedDepartmentId
+            depto: selectedDepartmentId
         },
         dataType: 'json',
         success: function(data) {
-            console.log(data);
-            const municipalityOptions = $('#id_ciudad');
-            municipalityOptions.empty();
+            
+            const municipalityOptions = $('#id_ciudad');                // Paso 3      
+            municipalityOptions.empty();                                // Aquí vaciamos los option del select 
 
-            for (const ciudad of data) {
+            for (const ciudad of data) {                                // Paso 4
                 municipalityOptions.append(
                     $('<option>').val(ciudad.id).text(ciudad.name)
                 );
             }
         }
+        
     });
+
 }
 
     
