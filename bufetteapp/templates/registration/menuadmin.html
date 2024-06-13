@@ -237,7 +237,7 @@
                 <li class="divider"></li>
                 <li>
                   <a href="{% url 'perfil_usuario' %}">
-                    <i class="lni lni-user"></i> View Profile
+                    <i class="lni lni-user"></i> ver perfil
                   </a>
                 </li>
                 {% if request.user.is_superuser %}
@@ -247,7 +247,7 @@
                 {% endif %}
                 <li class="divider"></li>
                 <li>
-                  <a href="{% url 'logout' %}"> <i class="lni lni-exit"></i> Sign Out </a>
+                  <a href="{% url 'logout' %}"> <i class="lni lni-exit"></i> cerrar sesión </a>
                 </li>
               </ul>
             </div>
