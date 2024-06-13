@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import Group
 from registration.models import Usuario
 from .models import Solicitud, DetalleSolicitud, Expediente, Pruebas, Actuaciones
 
@@ -20,8 +21,6 @@ class SolicitudForm(forms.ModelForm):
 
 class DetalleSolicitudForm(forms.ModelForm):
     """ Clase para el formulario del detalle de la solicitud """
-    # abogado = forms.ModelChoiceField(queryset=Usuario.objects.all())
-    # abogado= (Usuario.objects.filter(groups='Abogados'))
     class Meta:
         model = DetalleSolicitud
         fields = 'abogado', 'solicitud', 'observacion', 'estado'
@@ -30,6 +29,13 @@ class DetalleSolicitudForm(forms.ModelForm):
             'observacion': forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),
             'estado': forms.CheckboxInput(attrs={'class': 'form-check-input'})
         }
+
+    def __init__(self, *args, **kwargs):
+        """ Método constructor para el filtro de abogados  """
+        super().__init__(*args, **kwargs)
+        abogado_filtro = Group.objects.get(name='Abogados')
+        self.fields['abogado'].queryset = Usuario.objects.filter(groups = abogado_filtro, is_active=True)
+
 
 class ExpedienteForm(forms.ModelForm):
     """ Clase para el formulario del expediente """
@@ -48,7 +54,7 @@ class PruebasForm(forms.ModelForm):
     """ Clase para el formulario de Pruebas """
     class Meta:
         model = Pruebas
-        fields = 'expediente','nombre_prueba','descripcion','archivo'
+        fields = 'solicitud','nombre_prueba','descripcion','archivo'
         widgets = {
             'nombre_prueba': forms.TextInput(attrs={'class':'form-control'}),
             'descripcion': forms.Textarea(attrs={'class':'form-control', 'rows':'3'}),

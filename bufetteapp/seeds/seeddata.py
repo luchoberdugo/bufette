@@ -22,6 +22,7 @@ class TipotelefonoIngestion:
         for item in self.datos:
             tipotele_model = TipoTelefono(nombre_tipo = item['nombre_tipo'])
             tipotele_model.save()
+        print(f'Se han registrado {len(self.datos)} datos en Tipos de Telefono')
 
     
 class GeneroIngestion:
@@ -41,6 +42,7 @@ class GeneroIngestion:
         for item in self.datos:
             genero_model = Genero(nombre_genero = item['nombre_genero'])
             genero_model.save()
+        print(f'Se han registrado {len(self.datos)} datos en Géneros')
 
 class EtniasIngestion:
 
@@ -59,6 +61,7 @@ class EtniasIngestion:
         for item in self.datos:
             etnias_model = Etnias(nombre_etnia = item['nombre_etnia'])
             etnias_model.save()
+        print(f'Se han registrado {len(self.datos)} datos en Etnias')
 
 class TipoDocumentoIngestion:
 
@@ -77,6 +80,7 @@ class TipoDocumentoIngestion:
         for item in self.datos:
             tipodocu_model = TipoDocumento(nombre_documento = item['nombre_documento'])
             tipodocu_model.save()
+        print(f'Se han registrado {len(self.datos)} datos en Tipos de Documeno')
 
 class EstadoCivilIngestion:
 
@@ -95,6 +99,7 @@ class EstadoCivilIngestion:
         for item in self.datos:
             estadocivil_model = EstadoCivil(estado_civil = item['estado_civil'])
             estadocivil_model.save()
+        print(f'Se han registrado {len(self.datos)} datos en Estado Civil')
 
 class VulnerabilidadsIngestion:
 
@@ -113,6 +118,7 @@ class VulnerabilidadsIngestion:
         for item in self.datos:
             vulnerabilidad_model = Vulnerabilidades(nombre_vulnerabilidad = item['nombre_vulnerabilidad'])
             vulnerabilidad_model.save()
+        print(f'Se han registrado {len(self.datos)} datos en Vulnerabilidades')
 
 # Clases para las adiciones de semillas de Jhonathan:
 
@@ -132,6 +138,7 @@ class DespachoIngestion:
             for item in despacho["nombre_despacho"]:
                 despacho_model = Despacho(tipo_despacho = tipo_despacho_model, nombre_despacho = item)
                 despacho_model.save()
+        print(f'Se han registrado {len(despacho)} datos en Despachos')
 
 
 class GruposIngestion:
@@ -145,4 +152,4 @@ class GruposIngestion:
         for grupo in self.grupos:
             grupo_model = Group(name = grupo)
             grupo_model.save()
-            
+        print(f'Se han registrado {len(self.grupos)} datos en Perfiles de Usuario')

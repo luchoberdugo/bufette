@@ -35,7 +35,23 @@ class SignUpUserFormWithEmail(forms.ModelForm):
         email = self.cleaned_data.get('email')
         if Usuario.objects.filter(email=email).exists():
             raise forms.ValidationError("Este correo ya está registrado. Prueba con otro")
-        return email
+        return email.lower()
+    
+    def clean(self):
+        """ Método para normalizar los formatos de texto ingresados en los datos del usuario"""
+        cleaned_data = super().clean()
+
+        username = cleaned_data.get('username')
+        nacionalidad = cleaned_data.get('nacionalidad')
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+
+        cleaned_data['username'] = username.lower()
+        cleaned_data['nacionalidad'] = nacionalidad.title()
+        cleaned_data['first_name'] = first_name.title()
+        cleaned_data['last_name'] = last_name.title()
+
+        return cleaned_data
     
     def save(self, commit= True):
         """ Método save para guardar toda la info del formulario, incluso agrega el usuario a un grupo determinado """
@@ -57,7 +73,6 @@ class SignUpUserFormWithEmail(forms.ModelForm):
                 user_form.save()
                 user_form.groups.clear()
                 grupo = self.cleaned_data['groups']
-                # for grupo in self.cleaned_data['groups']:
                 user_form.groups.add(grupo)
             else:
                 data['error'] = form.errors
@@ -139,7 +154,7 @@ class TelefonoUserForm(forms.ModelForm):
         model = TelefonoUser
         fields = 'numero_tel', 'usuario', 'tipo_telefono'
         widgets = {
-            'numero_tel': forms.TextInput(attrs={'class':'form-control'}),
+            'numero_tel': forms.TextInput(attrs={'class':'form-control','type':'tel'}),
             'usuario': forms.TextInput(attrs={'class':'form-control'}),
             'tipo_telefono': forms.Select(attrs={'class':'form-select'})
         }

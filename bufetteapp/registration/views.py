@@ -22,13 +22,8 @@ from django.urls import reverse_lazy
 # ---------------------------------  CRUD DE USUARIO COMPLETO ---------------------------------
 
 # Create your views here.
-@method_decorator(login_required, name='dispatch')
-class DashboardUserView(TemplateView):
-    template_name = 'registration/dashboard.html'
-
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
-    
+# ---------------------------------  CRUD DE USUARIO Registro ---------------------------------
+  
 class SignUpUserView(LoginRequiredMixin, CreateView):
     form_class = SignUpUserFormWithEmail
     template_name = 'registration/registro.html'
@@ -41,13 +36,11 @@ class SignUpUserView(LoginRequiredMixin, CreateView):
         # Agrega el correo electrónico a la URL de redirección
         email = self.request.POST["email"]
         return reverse_lazy('detalle_usuario') + f'?email={email}'      # Se cambia el parámetro de url para poder buscar el id mas adelante en la pantala siguiente
-
     
 class AddDetailUserView(CreateView):
     """ Clase para agregar datos en el detalle del usuario """
     template_name = 'registration/detalleuser.html'
     form_class = DetalleUserForm
-
     
     def get(self, request, *args, **kwargs):
         """ Con este método get vamos a capturar el id del usuario, 
@@ -65,19 +58,7 @@ class AddDetailUserView(CreateView):
     def get_success_url(self) -> str:
         """ Redirige al dashboard una vez que se completa el formulario """
         return reverse_lazy('listausuario')
-    
-
-class AddIdProfessionalView(CreateView):
-    """ Clase para agregar la tarjeta profesional del usuario abogado """
-    template_name = 'registration/tarjeta_form.html'
-    form_class = IdProfessionalForm
-    reverse_lazy('listausuario')
-
-    def get(self, request, pk):
-        """ Con este método get vamos a capturar el id del usuario abogado,"""
-        abogado = get_user_model().objects.get(id=pk)
-        return render(request, self.template_name, { 'abogado': abogado, 'form': self.form_class})
-    
+      
 
 class UpdateIdProfessionalView(UpdateView):
     """ Clase para agregar la tarjeta profesional del usuario abogado """
@@ -139,6 +120,7 @@ class UserActivateOrDeactivateView(View):
 
         return redirect('listausuario')
     
+# ---------------------------------  CRUD DE USUARIO Telefono ---------------------------------
 
 class TelefonoUserAdd(CreateView):
     form_class = TelefonoUserForm
@@ -166,7 +148,20 @@ class TelefonoUserAdd(CreateView):
         """ Redirige al dashboard una vez que se completa el formulario """
         return reverse_lazy('listausuario')
 
-    
+# ---------------------------------  CRUD DE USUARIO Tarjeta Profesional ---------------------------------   
+
+class AddIdProfessionalView(CreateView):
+    """ Clase para agregar la tarjeta profesional del usuario abogado """
+    template_name = 'registration/tarjeta_form.html'
+    form_class = IdProfessionalForm
+    reverse_lazy('listausuario')
+
+    def get(self, request, pk):
+        """ Con este método get vamos a capturar el id del usuario abogado,"""
+        abogado = get_user_model().objects.get(id=pk)
+        return render(request, self.template_name, { 'abogado': abogado, 'form': self.form_class})
+
+# ---------------------------------  CRUD DE USUARIO Perfil Usuario ---------------------------------    
 
 class PerfilUserView(TemplateView):
     template_name = 'registration/perfiluser.html'
@@ -211,6 +206,8 @@ class PerfilUserView(TemplateView):
                                                     'telefonos':self.telefonos_list})
     
 
+# ---------------------------------  CRUD DE USUARIO Ver Usuario ---------------------------------
+
 class PerfilUserPublicView(DetailView):
     model = Usuario
     template_name = 'registration/perfilpublic.html'
@@ -244,7 +241,12 @@ class PerfilUserPublicView(DetailView):
         return contexto        
 # ---------------------------------  CRUD DE USUARIO COMPLETO ---------------------------------
 
+# ---------------------------------  Vista Administrativa ---------------------------------
+@method_decorator(login_required, name='dispatch')
+class DashboardUserView(TemplateView):
+    template_name = 'registration/dashboard.html'
 
-
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
 
 

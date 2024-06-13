@@ -123,7 +123,7 @@
                                                             {% if prueba.archivo %}
                                                                 <a href="{{ prueba.archivo.url }}" target="_blank" rel="noopener noreferrer">{{ prueba.archivo }}</a>
                                                             {% else %}
-                                                                <a href="{% url 'addpruebas' expediente.id %}" target="_blank" rel="noopener noreferrer">Adicionar Pruebas</a>
+                                                                <a href="{% url 'addpruebas' expediente.solicitud_id %}" target="_blank" rel="noopener noreferrer">Adicionar Pruebas</a>
                                                             {% endif %}
                                                         </td>
                                                         <td>{{ prueba.created }}</td>

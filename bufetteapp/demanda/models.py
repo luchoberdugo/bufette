@@ -11,14 +11,14 @@ from dane.models import Departamento, Ciudad
 
 # Función para subir archivos:
 def subir_archivo(instance, nombre_archivo):
-    return "documentos/solicitudes/expediente/{id}/{filename}".format( id = instance.pk, filename = nombre_archivo)
+    return "documentos/procesos/expediente/{id}/{filename}".format( id = instance.radicado, filename = nombre_archivo)
 
 def subir_pruebas(instance, nombre_archivo):
-    return "documentos/solicitudes/expediente/{id}/pruebas/{filename}".format( id = instance.expediente, filename = nombre_archivo)
+    return "documentos/procesos/expediente/{id}/pruebas/{filename}".format( id = instance.expediente, filename = nombre_archivo)
 
 
 def subir_acto(instance, nombre_archivo):
-    return "documentos/solicitudes/expediente/{id}/actuaciones/{filename}".format( id = instance.expediente, filename = nombre_archivo)
+    return "documentos/procesos/expediente/{id}/actuaciones/{filename}".format( id = instance.expediente, filename = nombre_archivo)
 
 # Create your models here.
 class Solicitud(models.Model):
@@ -60,6 +60,23 @@ class DetalleSolicitud(models.Model):
 
     def __str__(self) -> str:
         return f'{self.abogado}'
+    
+
+class Pruebas(models.Model):
+    """ Modelo para cargar los documentos que se usan como soporte para probar inocencia o culpabilidad """
+    solicitud = models.ForeignKey(Solicitud, on_delete=models.CASCADE)
+    nombre_prueba = models.CharField('Nombre de prueba', max_length=100)
+    descripcion = RichTextField(null=True, blank=True)
+    archivo = models.FileField(upload_to=subir_pruebas, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created']
+        verbose_name_plural = 'Pruebas'
+
+    def __str__(self):
+        return f"{self.nombre_prueba}"
 
 
 class Expediente(models.Model):
@@ -79,22 +96,6 @@ class Expediente(models.Model):
     def __str__(self):
         return f'{self.radicado}'
 
-
-class Pruebas(models.Model):
-    """ Modelo para cargar los documentos que se usan como soporte para probar inocencia o culpabilidad """
-    expediente = models.ForeignKey(Expediente, on_delete=models.CASCADE)
-    nombre_prueba = models.CharField('Nombre de prueba', max_length=100)
-    descripcion = RichTextField(null=True, blank=True)
-    archivo = models.FileField(upload_to=subir_pruebas, null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['-created']
-        verbose_name_plural = 'Pruebas'
-
-    def __str__(self):
-        return f"{self.nombre_prueba}"
 
 class Actuaciones(models.Model):
     """ Modelo para registrar las actuaciones realizadas por el personal del Despacho """
