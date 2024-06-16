@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class Contacto(models.Model):
     nombre = models.CharField('Nombre', max_length=200)
-    correo = models.EmailField('Correo Electrónico', unique=True, blank=False, null=False)
+    correo = models.EmailField('Correo Electrónico', blank=False, null=False)
     mensaje = models.TextField('Mensaje', null=False, blank=False)
     creado_el = models.DateField(auto_now_add=True, verbose_name='Fecha de Creación')
     modificado = models.DateField(auto_now=True, verbose_name="Ultima Modificación")

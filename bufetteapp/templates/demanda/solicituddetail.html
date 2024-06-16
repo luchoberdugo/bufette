@@ -1,0 +1,71 @@
+{% extends 'registration/menuadmin.html' %} 
+{% block titulo %}Ver Solicitud{% endblock %}
+{% load static %} 
+{% block dash %}
+
+<section class="signin-section">
+    <div class="container-fluid">
+        <!-- ========== title-wrapper start ========== -->
+        <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="title">
+                    <h2>Solicitud de {{ object.usuario.first_name }} {{object.usuario.last_name}}</h2>
+                </div>
+                <!-- <div class="justify-content-end">
+                    <a class="btn btn-outline-success" id="tooltip" href="{% url 'dashboard' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Agregar Usuario"><i class="fa-regular fa-pen-to-square"></i> Editar</a>
+                </div> -->
+            </div>
+            <!-- end col -->
+            <div class="col-md-4">
+            <div class="breadcrumb-wrapper">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'dashboard' %}">Solicitudes</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'listausuario' %}">Usuarios</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Ver Solicitud
+                    </li>
+                </ol>
+                </nav>
+            </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+        </div>
+        <!-- ========== title-wrapper end ========== -->
+        <div class="row">
+            <!-- Contenido de perfil de usuario -->
+            <section class="profile-info signup-wrapper">
+                <div class="card mb-3">
+                    <div class="card-body">
+                      <h2 class="card-title">Solicitud # {{ object.id }} &nbsp;&nbsp; <a class="btn btn-outline-success" id="tooltip" href="{% url 'dashboard' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Agregar Usuario"><i class="fa-regular fa-pen-to-square"></i> Editar</a></h2>
+                      <hr>
+                      <h3 class="card-tittle">{{ object.usuario.first_name }} {{ object.usuario.last_name }}</h3>
+                      <h4 class="card-tittle">El {{ object.fecha_solicitud }}</h4>
+                      <hr>
+                      <h4 class="card-tittle">Descripcion de los hechos:</h4>
+                      <p class="card-text">{{ object.descripcion_hechos|safe }}</p><br>
+                      <h4 class="card-tittle">Tipo de orientación recibida:</h4>
+                      <p class="card-text">{{ object.tipo_orientacion|safe }}</p><br>
+                      <h4 class="card-tittle">Observaciones acotadas:</h4>
+                      <p class="card-text">{{ object.observacion_adicional|safe }}</p><br>
+                      <h4 class="card-tittle">Conclusión</h4>
+                      {% if object.estado_solicitud %}
+                        <p class="card-text">Se toma el proceso para iniciar la diligencia</p><br>
+                      {% else %}
+                        <p class="card-text">La solicitud está inactiva</p><br>
+                      {% endif %}
+                    </div>
+                  </div>
+                  
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}

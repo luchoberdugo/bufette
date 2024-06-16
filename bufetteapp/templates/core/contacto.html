@@ -9,9 +9,28 @@
         <div class="text-center mt-3">
             <h1 class="display-3">Contáctanos</h1>
         </div>
+        <!-- Manejo de mensajes -->
+        {% if 'ok' in request.GET %}
+            <div class="alert alert-success text-center col-md-12" role="alert">
+                Se ha enviado tu mensaje, pronto te contactará alguien de Magnus.
+            </div>
+        {% endif %}
+        {% if 'fail' in request.GET %}
+            <div class="alert alert-warning text-center col-md-12" role="alert">
+                Se ha producido un error al enviar tu mensaje
+            </div>
+        {% endif %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger" role="alert">
+                    <span>{{ error }}</span>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <!-- Fin de manejo de mensajes -->
         <div class="col-6 mt-4">
-            <form class="" enctype="multipart/form-data">
-                {{ crsf_token }}
+            <form class="" enctype="multipart/form-data" method="post">
+                {% csrf_token %}
                 <div class="mb-3">
                     <label for="floatingInput">Nombre Completo</label>
                     {{ form.nombre  }}

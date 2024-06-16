@@ -11,6 +11,9 @@ from django.urls import reverse, reverse_lazy
 from django.db.models import F, Value, CharField, ExpressionWrapper
 
 # Create your views here.
+
+# ----------------------------------------------------- CRUD Solicitud -----------------------------------------------------
+
 class SolicitudCreateView(CreateView):
     """ Controlador para Crear Solicitud """
     model = Solicitud
@@ -59,15 +62,20 @@ class SolicitudListView(ListView):
 
     
 class SolicitudView(DetailView):
+    """ Clase para ver la Solicitud individual """
     model = Solicitud
-    # template_name = 'solicitud/solicitud.html'
+    template_name = 'demanda/solicituddetail.html'
+
 
 class SolicitudEditView(UpdateView):
     model = Solicitud
     form_class = SolicitudForm
     # template_name =
 
+# ----------------------------------------------------- CRUD DetaSolicitud -----------------------------------------------------
+
 class DetalleSolicitudCreate(CreateView):
+    """ Controlador de Detalle de solicitud """
     model = DetalleSolicitud
     form_class = DetalleSolicitudForm
     template_name ='demanda/detallesolicitud.html'
@@ -81,12 +89,46 @@ class DetalleSolicitudCreate(CreateView):
             solicitud = None
 
         return render(request, self.template_name, {'solicitud': solicitud, 'form': self.form_class})
-    
 
 class DetalleEditView(UpdateView):
     model = DetalleSolicitud
     form_class = DetalleSolicitudForm
     # template_name
+
+# ----------------------------------------------------- CRUD Pruebas -----------------------------------------------------
+
+class PruebasExpedienteView(TemplateView):
+    """ Clase para adicionar pruebas y actos a la """
+    template_name = 'demanda/pruebas.html'
+    form_class =  PruebasForm
+
+    def get(self, request, pk):
+        """ Método para capturar el expediente """
+        try:
+            solicitud = Solicitud.objects.get(id=pk)
+            deta_solicitud = DetalleSolicitud.objects.filter(solicitud = solicitud.id)
+        except Expediente.DoesNotExist:
+            solicitud = None
+
+        return render(request,self.template_name, {'prueba_form': self.form_class,
+                                                   'solicitud': solicitud,
+                                                   'deta_solicitud': deta_solicitud})
+    
+    def post(self, request, *args, **kwargs):
+        """ Método para guardar los datos del formulario """
+        prueba_form = PruebasForm(data = request.POST)
+        actos_form = ActuacionesForm(data = request.POST)
+
+        if 'guarda_prueba' in request.POST:
+            if prueba_form.is_valid():
+                prueba = prueba_form.save(commit=False)
+                prueba.save()
+            else:
+                prueba_form.errors
+
+        return HttpResponseRedirect(reverse('informeexpediente', kwargs={'pk': self.kwargs['pk']}))
+                    
+# ----------------------------------------------------- CRUD Expediente -----------------------------------------------------
 
 class ExpedienteCreateView(CreateView):
     """ Clase para adicionar expediente a la solicitud """
@@ -108,57 +150,13 @@ class ExpedienteCreateView(CreateView):
                                                     'deta_solicitud': deta_solicitud})
     def get_success_url(self):
         """ Método para redireccionar al guardar """
-        return reverse_lazy('expediente_listar', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('lista_expedientes')
 
 class ExpedienteListView(ListView):
     """ Clase para listar expedientes de la solicitud """
     model = Expediente
     paginate_by = 10
     template_name = 'demanda/listaexpedientes.html'
-
-
-class PruebasExpedienteView(TemplateView):
-    """ Clase para adicionar pruebas y actos a la """
-    template_name = 'demanda/pruebas.html'
-    form_class =  PruebasForm
-
-    def get(self, request, pk):
-        """ Método para capturar el expediente """
-        try:
-            expediente = Expediente.objects.get(id=pk)
-            solicitud = Solicitud.objects.filter(id= expediente.solicitud_id)
-            for sol in solicitud:
-                deta_solicitud = DetalleSolicitud.objects.filter(solicitud = sol.id)
-        except Expediente.DoesNotExist:
-            expediente = None
-            solicitud = None
-
-        return render(request,self.template_name, {'prueba_form': self.form_class,
-                                                   'solicitud': solicitud,
-                                                   'expediente': expediente,
-                                                   'deta_solicitud': deta_solicitud})
-    
-    def post(self, request, *args, **kwargs):
-        """ Método para guardar los datos del formulario """
-        prueba_form = PruebasForm(data = request.POST)
-        actos_form = ActuacionesForm(data = request.POST)
-
-        if 'guarda_prueba' in request.POST:
-            if prueba_form.is_valid():
-                prueba = prueba_form.save(commit=False)
-                prueba.save()
-            else:
-                prueba_form.errors
-        
-        elif 'guarda_acto' in request.POST:
-            if actos_form.is_valid():
-                acto = actos_form.save(commit=False)
-                acto.save()
-            else:
-                actos_form.errors
-
-        return HttpResponseRedirect(reverse('informeexpediente', kwargs={'pk': self.kwargs['pk']}))
-                    
 
 class ExpedienteInformeView(TemplateView):
     """ Clase para adicionar pruebas y actos a la """
@@ -184,6 +182,8 @@ class ExpedienteInformeView(TemplateView):
                                                    'expediente': expediente,
                                                    'deta_solicitud': deta_solicitud})
     
+
+# ----------------------------------------------------- CRUD Actuaciones -----------------------------------------------------   
 
 class ActuacionesExpedienteView(TemplateView):
     """ Clase para adicionar pruebas y actos a la """

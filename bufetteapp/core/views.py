@@ -4,8 +4,8 @@ from django.views.generic import ListView, TemplateView, View
 # Importamos el modelo de datos de core:
 from .models import Contacto, Nosotros, Servicios
 # Envio de correos:
-from django.core.mail import send_mail
 from django.core.mail import EmailMessage
+#  from django.core.mail import EmailMessage
 from django.urls import reverse
 # Importamos el forulario:
 from .forms import ContactoForm
@@ -35,28 +35,34 @@ class ContactoPageView(View):
         form = ContactoForm()
         return render(request, self.template_name, {'form': form})
     
-#     def post(self, request, *args, **kwars):
-#         # Creamos un objeto del formulario y le pasamos los valores
-#         form = ContactoForm(request.POST)
-#         if form.is_valid():
-#             correo = form.cleaned_data['correo']
-#             nombre = form.cleaned_data['nombre']
-#             mensaje = form.cleaned_data['mensaje']
+    def post(self, request, *args, **kwars):
+        # Creamos un objeto del formulario y le pasamos los valores
+        form = ContactoForm(data = request.POST)
+        if form.is_valid():
+            correo = form.cleaned_data['correo']
+            nombre = form.cleaned_data['nombre']
+            mensaje = form.cleaned_data['mensaje']
 
-#             correo.EmailMessage(
-#                 "Haz recibido un nuevo mensaje de contacto",
-#                 "De {} <{}>\n\nEscribió:\n\n{}".format(nombre, correo, mensaje),
-#                 form.cleaned_data['email'],
-#                 'ederlara@deever.onmicrosoft.com',
-#                 reply_to = form.cleaned_data['correo']
-#             )
-#             try:
-#                 correo.send()
-#                 return redirect(reverse('contacto')+'?ok')
-#             except:
-#                 # Algo no va bien
-#                 return redirect(reverse('contacto')+'?fail')
-#         return render(request, self.template_name, {'form': form})        
+            mail = EmailMessage(
+                    f"Haz recibido un nuevo mensaje de {nombre}",
+                    f"De {nombre} <{correo}>\n\nEscribió:\n\n{mensaje}",
+                    form.cleaned_data['correo'],
+                    ['ederlara@deever.onmicrosoft.com', form.cleaned_data['correo']],
+            )
+
+            try:
+                mail.fail_silently = False
+                mail.send()
+
+                form_contact = form.save(commit=False)
+                form_contact.save()
+                return redirect(reverse('contacto')+'?ok')
+            except:
+                # Algo no va bien
+                return redirect(reverse('contacto')+'?fail')
+        else:
+            form.errors
+        return render(request, self.template_name, {'form': form})        
         
 class ServiciosPageView(ListView):
     """ Vista para pagina de Servicios """

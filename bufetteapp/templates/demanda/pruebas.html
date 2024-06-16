@@ -54,22 +54,22 @@
                                           Detalle de Solicitud
                                         </div>
                                         <div class="card-body">
-                                          <h5 class="card-title">Solicitud #<span class="text-success">{{ expediente.solicitud.id  }}</span>  
-                                                                &nbsp;Fecha: <span class="text-success">{{ expediente.solicitud.fecha_solicitud }}</span>
-                                                                &nbsp;Cliente: <span class="text-success">{{ expediente.solicitud.usuario.first_name }} {{ expediente.solicitud.usuario.last_name }}</span>
+                                          <h5 class="card-title">Solicitud #<span class="text-success">{{ solicitud.id  }}</span>  
+                                                                &nbsp;Fecha: <span class="text-success">{{ solicitud.fecha_solicitud }}</span>
+                                                                &nbsp;Cliente: <span class="text-success">{{ solicitud.usuario.first_name }} {{ solicitud.usuario.last_name }}</span>
                                           </h5>
                                           <div class="row">
                                             <div class="col-md-6">
                                                 <h5 class="card-title"><span class="text-success">Descripcion de los Hechos</span></h5>
-                                                <blockquote class="card-text">{{ expediente.solicitud.descripcion_hechos|safe }}</blockquote>
+                                                <blockquote class="card-text">{{ solicitud.descripcion_hechos|safe }}</blockquote>
                                             </div>
                                             <div class="col-md-6">
                                                 <h5 class="card-title"><span class="text-success">Tipo de Orientación:</span></h5>
-                                                <p class="card-text">{{ expediente.solicitud.tipo_orientacion|safe }}</p>
+                                                <p class="card-text">{{ solicitud.tipo_orientacion|safe }}</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <h5 class="card-title"><span class="text-success">Observación adicional:</span></h5>
-                                                <p class="card-text">{{ expediente.solicitud.observacion_adicional|safe }}</p>
+                                                <p class="card-text">{{ solicitud.observacion_adicional|safe }}</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <h5 class="card-title"><span class="text-success">Abogado Asignado</span></h5>
@@ -86,8 +86,8 @@
                                     <form method="post" enctype="multipart/form-data">
                                         <div class="row">
                                             {% csrf_token %}
-                                            <!-- Entrada Oculta de expediente.id -->
-                                            <input type="hidden" class="form-control-plaintext" readonly name="expediente" value="{{ expediente.id }}">
+                                            <!-- Entrada Oculta de id -->
+                                            <input type="hidden" class="form-control-plaintext" readonly name="expediente" value="{{ id }}">
                                             <div class="col-md-5 row">
                                                 <div class="col-md-12">
                                                     <div class="input-style-1 mt-5">

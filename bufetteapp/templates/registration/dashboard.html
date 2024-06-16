@@ -3,11 +3,99 @@
 {% load static %}
 
 {% block dash %}
-    <section class="container-fluid">
-        <div class="row">
-            <blockquote>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat qui asperiores et placeat perferendis, iure dignissimos animi impedit? Modi dignissimos fugiat reprehenderit! Illo voluptatum animi earum in molestias inventore veritatis!
-            </blockquote>
+    <section class="signin-section">
+        <div class="container-fluid">
+            <!-- ========== title-wrapper start ========== -->
+            <div class="title-wrapper pt-30">
+                <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="title">
+                    <h2>Dashboard</h2>
+                    </div>
+                </div>
+                <!-- end col -->
+                <div class="col-md-6">
+                    <div class="breadcrumb-wrapper">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'dashboard' %}">Inicio</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Dashboard
+                            </li>
+                        </ol>
+                    </nav>
+                    </div>
+                </div>
+                <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- ========== title-wrapper end ========== -->
+            <section class="container-fluid">
+                <div class="row">
+                    <!-- Vista de administrativos -->
+                    {% if request.user.groups.first.name == 'Administrativo' or request.user.is_staff %}
+                        <div class="card border-dark mb-3 col-md-5 mt-2 mx-4" >
+                            <div class="card-header"><h3 class="display-6">Procesos</h3></div>
+                            <div class="card-body">
+                                <table class="table table-light table-sm table-hover">
+                                    <thead class="table-dark text-center">
+                                        <tr>
+                                            <th>Tipo de Atención</th>
+                                            <th>Cant.</th>
+                                        </tr>
+                                    </thead>
+                                    <tboody class="text-center">
+                                        <tr>
+                                            <td>Solicitudes Nuevas</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Solicitudes Atendidas</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Expedientes</td>
+                                            <td></td>
+                                        </tr>
+                                    </tboody>
+                                </table>
+                            </div>
+                            <div class="card-footer bg-transparent border-dark">Total de procesos gestionados: </div>
+                        </div>
+                        <div class="card border-dark mb-3 col-md-5 mt-2 mx-4" >
+                            <div class="card-header"><h3 class="display-6">Clientes</h3></div>
+                            <div class="card-body">
+                                <h5 class="card-title">Dark card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                        </div>
+                        <div class="card border-dark mb-3 col-md-5 mt-2 mx-3" >
+                            <div class="card-header"><h3 class="display-6">Abogados</h3></div>
+                            <div class="card-body">
+                                <h5 class="card-title">Dark card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Vista de abogado -->
+                    {% if request.user.groups.first.name == 'Abogados' %}
+                        <blockquote>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat qui asperiores et placeat perferendis, iure dignissimos animi impedit? Modi dignissimos fugiat reprehenderit! Illo voluptatum animi earum in molestias inventore veritatis!
+                        </blockquote>
+                    {% endif %}
+
+                    <!-- Vista de cliente -->
+                    {% if request.user.groups.first.name == 'Cliente' %}
+                        <blockquote>
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellat qui asperiores et placeat perferendis, iure dignissimos animi impedit? Modi dignissimos fugiat reprehenderit! Illo voluptatum animi earum in molestias inventore veritatis!
+                        </blockquote>
+                    {% endif %}
+                </div>
+            </section>
         </div>
     </section>
 {% endblock %}
