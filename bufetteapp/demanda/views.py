@@ -116,15 +116,18 @@ class PruebasExpedienteView(TemplateView):
     
     def post(self, request, *args, **kwargs):
         """ Método para guardar los datos del formulario """
-        prueba_form = PruebasForm(data = request.POST)  
+        prueba_form = PruebasForm(data = request.POST)
 
-        if 'cargar_pruebas' in request.POST:
-            if prueba_form.is_valid():
+        if prueba_form.is_valid():
                 prueba = prueba_form.save(commit=False)
                 prueba.save()
-                return reverse('ver_solicitud', kwargs={'pk': self.kwargs['pk']})
-            else:
-                prueba_form.errors
+                if 'cargar_pruebas' in request.POST:
+                    return redirect('addpruebas', pk= self.kwargs['pk'])
+                elif 'terminar_carga' in request.POST:
+                    return redirect('listasolicitudasignadas')
+                else:
+                    prueba_form.errors
+            
            
         
         # if 'cargar_pruebas' in request.POST:
