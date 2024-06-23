@@ -11,14 +11,14 @@ from dane.models import Departamento, Ciudad
 
 # Función para subir archivos:
 def subir_archivo(instance, nombre_archivo):
-    return "documentos/procesos/expediente/{id}/{filename}".format( id = instance.radicado, filename = nombre_archivo)
+    return "documentos/procesos/expediente/{sol}/{id}/{filename}".format( sol = instance.solicitud, id = instance.radicado, filename = nombre_archivo)
 
 def subir_pruebas(instance, nombre_archivo):
-    return "documentos/procesos/expediente/{id}/pruebas/{filename}".format( id = instance.expediente, filename = nombre_archivo)
+    return "documentos/procesos/expediente/{id}/pruebas/{filename}".format( id = instance.solicitud, filename = nombre_archivo)
 
 
 def subir_acto(instance, nombre_archivo):
-    return "documentos/procesos/expediente/{id}/actuaciones/{filename}".format( id = instance.expediente, filename = nombre_archivo)
+    return "documentos/procesos/expediente/{sol}/{id}/actuaciones/{filename}".format( sol = instance.expediente.solicitud, id = instance.expediente, filename = nombre_archivo)
 
 # Create your models here.
 class Solicitud(models.Model):
