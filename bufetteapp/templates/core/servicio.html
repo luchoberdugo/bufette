@@ -11,8 +11,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ servicio.nombre_servicio }}</h5>
-                            <p class="card-text">{{ servicio.descripcion_corta }}</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <p class="card-text">{{ servicio.descripcion_corta|safe }}</p>
+                            <a href="{% url 'contacto' %}" class="btn btn-primary">Iniciar Procesos</a>
                         </div>
                     </div>
                 </div>  
