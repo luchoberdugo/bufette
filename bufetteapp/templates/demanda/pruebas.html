@@ -83,54 +83,35 @@
 
                                         </div>
                                       </div>
-                                    <form method="post" enctype="multipart/form-data">
-                                        <div class="row">
-                                            {% csrf_token %}
-                                            <!-- Entrada Oculta de id -->
-                                            <input type="hidden" class="form-control-plaintext" readonly name="expediente" value="{{ id }}">
-                                            {% for field in form %}
-                                                {% for error in field.errors %}
-                                                <div class="alert alert-danger" role="alert">
-                                                    <li>{{ error }}</li>
-                                                </div>
-                                                {% endfor %}
-                                            {% endfor %}
-                                            <div class="col-md-5 row">
-                                                <div class="col-md-12">
-                                                    <div class="input-style-1 mt-5">
-                                                        <div class="input-style-1">
-                                                            <label for="">Nombre de la Prueba</label>
-                                                            {{ prueba_form.nombre_prueba }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="input-style-2">
-                                                        <label for="">Evidencia:</label>
-                                                        {{ prueba_form.archivo }}
-                                                    </div>
-                                                </div>
-                                            </div>                                            
-                                            <div class="col-md-7">
-                                                <!-- <label for="">Descripción:</label> -->
-                                                {{ prueba_form.descripcion }}
-                                            </div>
-                                                                                   
-                                            <div class="col-12 mt-2">
-                                                <div class="button-group d-flex justify-content-center flex-wrap">
-                                                    <button type="reset" class="main-btn light-btn btn-hover w-30 text-center mx-2">
-                                                        Limpiar Formulario
-                                                    </button>
-                                                    <button type="submit" name="cargar_pruebas" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
-                                                        Agregar pruebas
-                                                    </button>
-                                                    <button type="submit" name="terminar_carga" class="main-btn primary-btn btn-hover w-30 text-center mx-2">
-                                                        Terminar
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                      <hr>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        Adicionar Pruebas
+                                    </button>
+                                    
+                                    <div class="table col-md-12 mt-3">
+                                        <table class="table table-striped table-bordered">
+                                            <thead class="text-center">
+                                                <tr>
+                                                    <th>Nombre de la Prueba</th>
+                                                    <th>Archivo Soporte</th>
+                                                    <th>Descripcion</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-center">
+                                                <tr>
+                                                    {% for item in object_list %}
+                                                        <td>{{ item.nombre_prueba }}</td>
+                                                        <td>{{ item.archivo }}</td>
+                                                        <td>{{ item.descripcion }}</td>
+                                                    {% empty %}
+                                                        <td colspan="3" class="text-center">No se han registrado pruebas, haga clic en el boton "Agregar Pruebas"</td>
+                                                    {% endfor %}
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
                                 </section>
                             </div>
                           </div>
@@ -140,6 +121,66 @@
         </div>
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar Pruebas a la Solicitud</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Entrada Oculta de id -->
+                    <input type="hidden" class="form-control-plaintext" readonly name="expediente" value="{{ id }}">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <li>{{ error }}</li>
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                    <div class="col-md-12 row">
+                        <div class="col-md-12">
+                            <div class="input-style-1 mt-1">
+                                <div class="input-style-1">
+                                    <label for="">Nombre de la Prueba</label>
+                                    {{ prueba_form.nombre_prueba }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="input-style-2">
+                                <label for="">Evidencia:</label>
+                                {{ prueba_form.archivo }}
+                            </div>
+                        </div>
+                    </div>                                            
+                    <div class="col-md-12">
+                        <label for="">Descripción:</label>
+                        {{ prueba_form.descripcion }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex">
+                <button type="reset" class="btn-sm light-btn btn-hover text-center mx-2">
+                    Limpiar Formulario
+                </button>
+                <button type="submit" name="cargar_pruebas" class="btn-sm primary-btn btn-hover text-center mx-2">
+                    Agregar pruebas
+                </button>
+                <button type="submit" name="terminar_carga" class="btn-sm success-btn btn-hover text-center mx-2">
+                    Terminar
+                </button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
 
 <script>
 

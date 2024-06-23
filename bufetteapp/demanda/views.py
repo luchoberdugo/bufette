@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, View, CreateView, ListView, UpdateView, DetailView
@@ -97,8 +98,9 @@ class DetalleEditView(UpdateView):
 
 # ----------------------------------------------------- CRUD Pruebas -----------------------------------------------------
 
-class PruebasExpedienteView(TemplateView):
+class PruebasExpedienteView(TemplateView, ListView):
     """ Clase para adicionar pruebas y actos a la """
+    model = Pruebas
     template_name = 'demanda/pruebas.html'
     form_class =  PruebasForm
 
@@ -114,32 +116,31 @@ class PruebasExpedienteView(TemplateView):
                                                    'solicitud': solicitud,
                                                    'deta_solicitud': deta_solicitud})
     
+    def get_queryset(self, pk):
+        """ Clase para lisar todas las pruebas """
+        qs = Pruebas.objects.filter(solicitud = pk)
+        return qs
+    
     def post(self, request, *args, **kwargs):
         """ Método para guardar los datos del formulario """
         prueba_form = PruebasForm(data = request.POST)
 
-        if prueba_form.is_valid():
+        if 'cargar_pruebas' in request.POST:
+            if prueba_form.is_valid():
+                print('boton cargar pruebas')
+                prueba = prueba_form.save(commit=False)
+                print('commit del form')
+                prueba.save()
+                print('salvado')
+            return redirect('addpruebas', pk= self.kwargs['pk'])
+        elif 'terminar_carga' in request.POST:
+            if prueba_form.is_valid():
                 prueba = prueba_form.save(commit=False)
                 prueba.save()
-                if 'cargar_pruebas' in request.POST:
-                    return redirect('addpruebas', pk= self.kwargs['pk'])
-                elif 'terminar_carga' in request.POST:
-                    return redirect('listasolicitudasignadas')
-                else:
-                    prueba_form.errors
-            
+            return redirect('listasolicitudasignadas')
+        else:
+            prueba_form.errors      
            
-        
-        # if 'cargar_pruebas' in request.POST:
-        #     print('debug 1: Impresion desde validacion')
-        #     if prueba_form.is_valid():
-        #         prueba = prueba_form.save(commit=False)
-        #         prueba.save()
-        #     else:
-        #         prueba_form.errors
-        #     return HttpResponseRedirect(reverse('addpruebas', kwargs={'pk': self.kwargs['pk']}))
-
-                    
 # ----------------------------------------------------- CRUD Expediente -----------------------------------------------------
 
 class ExpedienteCreateView(CreateView):
