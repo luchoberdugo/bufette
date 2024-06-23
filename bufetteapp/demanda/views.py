@@ -116,17 +116,26 @@ class PruebasExpedienteView(TemplateView):
     
     def post(self, request, *args, **kwargs):
         """ Método para guardar los datos del formulario """
-        prueba_form = PruebasForm(data = request.POST)
-        actos_form = ActuacionesForm(data = request.POST)
+        prueba_form = PruebasForm(data = request.POST)  
 
-        if 'guarda_prueba' in request.POST:
+        if 'cargar_pruebas' in request.POST:
             if prueba_form.is_valid():
                 prueba = prueba_form.save(commit=False)
                 prueba.save()
+                return reverse('ver_solicitud', kwargs={'pk': self.kwargs['pk']})
             else:
                 prueba_form.errors
+           
+        
+        # if 'cargar_pruebas' in request.POST:
+        #     print('debug 1: Impresion desde validacion')
+        #     if prueba_form.is_valid():
+        #         prueba = prueba_form.save(commit=False)
+        #         prueba.save()
+        #     else:
+        #         prueba_form.errors
+        #     return HttpResponseRedirect(reverse('addpruebas', kwargs={'pk': self.kwargs['pk']}))
 
-        return HttpResponseRedirect(reverse('informeexpediente', kwargs={'pk': self.kwargs['pk']}))
                     
 # ----------------------------------------------------- CRUD Expediente -----------------------------------------------------
 

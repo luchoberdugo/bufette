@@ -1,4 +1,6 @@
 from django.db import models
+# Importamos la libreria de texto enriquecido:
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Contacto(models.Model):
@@ -13,8 +15,8 @@ class Contacto(models.Model):
         verbose_name = 'Contacto'
     
 class Nosotros(models.Model):
-    mision = models.TextField('Misión', null=False, blank=False, unique=True)
-    vision = models.TextField('Visión', null=False, blank=False, unique=True)
+    mision = RichTextField('Misión', null=False, blank=False, unique=True)
+    vision = RichTextField('Visión', null=False, blank=False, unique=True)
     creado_el = models.DateField(auto_now_add=True, verbose_name='Fecha de Creación')
     modificado = models.DateField(auto_now=True, verbose_name="Ultima Modificación")
 
@@ -25,7 +27,7 @@ class Nosotros(models.Model):
 
 class Servicios(models.Model):
     nombre_servicio = models.CharField("Nombre del servicio", max_length=150)
-    descripcion_corta = models.CharField("Descripción corta", max_length=250)
+    descripcion_corta = RichTextField("Descripción del servicio", max_length=250)
     creado_el = models.DateField(auto_now_add=True, verbose_name='Fecha de Creación')
     modificado = models.DateField(auto_now=True, verbose_name="Ultima Modificación")
 
