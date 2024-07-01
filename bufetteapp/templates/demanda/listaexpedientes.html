@@ -62,12 +62,12 @@
                         <tbody  class="text-center">
                             {% for item in object_list %}
                                 <tr class="text-capitalize">
-                                    <td>{{ item.radicado }}</td>
+                                    <td>{{ item.id }}</td>
                                     <td>{{ item.solicitud.usuario.first_name }} {{ item.solicitud.usuario.last_name }}</td>
                                     <td>{{ item.fecha_radicado }} {{ item.hora_radicado }}</td>
                                     <td>{% if item.solicitud.decision_adoptada %}Concedida{% else %}Denegada{% endif %}</td>
                                     <td>
-                                        <a href="#" title="Ver Expediente" class="text-info"><i class="fa-solid fa-eye"></i></a>
+                                        <a href="{% url 'informeexpediente' pk=item.id %}" title="Ver Expediente" class="text-info"><i class="fa-solid fa-eye"></i></a>
                                     </td>
                                 </tr>
                             {% empty %}
