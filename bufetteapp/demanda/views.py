@@ -98,7 +98,7 @@ class DetalleEditView(UpdateView):
 
 # ----------------------------------------------------- CRUD Pruebas -----------------------------------------------------
 
-class PruebasExpedienteView(TemplateView, ListView):
+class PruebasExpedienteView(TemplateView):
     """ Clase para adicionar pruebas y actos a la """
     model = Pruebas
     template_name = 'demanda/pruebas.html'
@@ -109,12 +109,17 @@ class PruebasExpedienteView(TemplateView, ListView):
         try:
             solicitud = Solicitud.objects.get(id=pk)
             deta_solicitud = DetalleSolicitud.objects.filter(solicitud = solicitud.id)
+            if Pruebas.objects.filter(solicitud = pk):
+                pruebas = Pruebas.objects.filter(solicitud = pk)
+            else:
+                pruebas = 'No se han cargado pruebas aún'    
         except Expediente.DoesNotExist:
             solicitud = None
 
         return render(request,self.template_name, {'prueba_form': self.form_class,
                                                    'solicitud': solicitud,
-                                                   'deta_solicitud': deta_solicitud})
+                                                   'deta_solicitud': deta_solicitud,
+                                                   'pruebas': pruebas})
     
     def get_queryset(self, pk):
         """ Clase para lisar todas las pruebas """
@@ -124,22 +129,22 @@ class PruebasExpedienteView(TemplateView, ListView):
     def post(self, request, *args, **kwargs):
         """ Método para guardar los datos del formulario """
         prueba_form = PruebasForm(data = request.POST)
-
+        print(prueba_form.data)
         if 'cargar_pruebas' in request.POST:
+            print('boton obturado... validando formulario')
+            
             if prueba_form.is_valid():
-                print('boton cargar pruebas')
-                prueba = prueba_form.save(commit=False)
-                print('commit del form')
-                prueba.save()
-                print('salvado')
+                prueba_form.save()
+            else:
+                prueba_form.errors 
             return redirect('addpruebas', pk= self.kwargs['pk'])
         elif 'terminar_carga' in request.POST:
             if prueba_form.is_valid():
                 prueba = prueba_form.save(commit=False)
                 prueba.save()
-            return redirect('listasolicitudasignadas')
-        else:
-            prueba_form.errors      
+            else:
+                prueba_form.errors 
+            return redirect('listasolicitudasignadas')                 
            
 # ----------------------------------------------------- CRUD Expediente -----------------------------------------------------
 
@@ -163,7 +168,7 @@ class ExpedienteCreateView(CreateView):
                                                     'deta_solicitud': deta_solicitud})
     def get_success_url(self):
         """ Método para redireccionar al guardar """
-        return reverse_lazy('lista_expedientes')
+        return reverse_lazy('expediente_listar')
 
 class ExpedienteListView(ListView):
     """ Clase para listar expedientes de la solicitud """
@@ -182,7 +187,7 @@ class ExpedienteInformeView(TemplateView):
             solicitud = Solicitud.objects.filter(id= expediente.solicitud_id)
             for sol in solicitud:
                 deta_solicitud = DetalleSolicitud.objects.filter(solicitud = sol.id)
-            pruebas = Pruebas.objects.filter(expediente = expediente)
+            pruebas = Pruebas.objects.filter(solicitud = sol.id)
             actos = Actuaciones.objects.filter(expediente = expediente)
 
         except Expediente.DoesNotExist:
