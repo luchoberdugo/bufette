@@ -58,20 +58,6 @@ class AddDetailUserView(CreateView):
     def get_success_url(self) -> str:
         """ Redirige al dashboard una vez que se completa el formulario """
         return reverse_lazy('listausuario')
-      
-
-class UpdateIdProfessionalView(UpdateView):
-    """ Clase para agregar la tarjeta profesional del usuario abogado """
-    template_name = 'registration/tarjeta_form.html'
-    form_class = IdProfessionalForm
-
-    def get_object(self):
-        ti_obj, created = TarjetaProfesional.objects.get_or_create(id=self.kwargs['pk'])
-        return ti_obj 
-
-    def get_success_url(self) -> str:
-        """ Redirige al dashboard una vez que se completa el formulario """
-        return reverse_lazy('listausuario')
     
     
 @method_decorator(login_required, name='dispatch')
@@ -154,12 +140,28 @@ class AddIdProfessionalView(CreateView):
     """ Clase para agregar la tarjeta profesional del usuario abogado """
     template_name = 'registration/tarjeta_form.html'
     form_class = IdProfessionalForm
-    reverse_lazy('listausuario')
 
     def get(self, request, pk):
         """ Con este método get vamos a capturar el id del usuario abogado,"""
         abogado = get_user_model().objects.get(id=pk)
         return render(request, self.template_name, { 'abogado': abogado, 'form': self.form_class})
+    
+    def get_success_url(self) -> str:
+        """ Redirige al dashboard una vez que se completa el formulario """
+        return reverse_lazy('listausuario')
+    
+class UpdateIdProfessionalView(UpdateView):
+    """ Clase para agregar la tarjeta profesional del usuario abogado """
+    template_name = 'registration/tarjeta_form.html'
+    form_class = IdProfessionalForm
+
+    def get_object(self):
+        ti_obj, created = TarjetaProfesional.objects.get_or_create(id=self.kwargs['pk'])
+        return ti_obj 
+
+    def get_success_url(self) -> str:
+        """ Redirige al dashboard una vez que se completa el formulario """
+        return reverse_lazy('listausuario')
 
 # ---------------------------------  CRUD DE USUARIO Perfil Usuario ---------------------------------    
 
